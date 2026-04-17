@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FF2D78"/>
+      <stop offset="20%" stop-color="#FF7A35"/>
+      <stop offset="40%" stop-color="#FFD600"/>
+      <stop offset="60%" stop-color="#5FCF80"/>
+      <stop offset="80%" stop-color="#38BFFF"/>
+      <stop offset="100%" stop-color="#7B5EFF"/>
+    </linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#faf7ff"/>
+      <stop offset="100%" stop-color="#f0eaff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <pattern id="dots" x="0" y="0" width="22" height="22" patternUnits="userSpaceOnUse">
+    <circle cx="11" cy="11" r="1.2" fill="rgba(0,0,0,0.1)"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <rect x="67" y="67" width="1080" height="510" rx="24" fill="#7A3848" opacity="0.15"/>
+  <rect x="60" y="60" width="1080" height="510" rx="24" fill="white" stroke="#111111" stroke-width="3"/>
+  <rect x="60" y="60" width="1080" height="8" rx="4" fill="url(#rainbow)"/>
+  <text x="600" y="185" font-family="serif" font-size="36" fill="#7A3848" text-anchor="middle" letter-spacing="18">&#x273F; &#x2766; &#x274B; &#x2661; &#x273A; &#x2735; &#x2736; &#x2741;</text>
+  <text x="600" y="300" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="#111111" text-anchor="middle">Personal Intimacy</text>
+  <text x="600" y="385" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="#111111" text-anchor="middle">Profile</text>
+  <text x="600" y="455" font-family="Arial, sans-serif" font-size="28" fill="#888" text-anchor="middle" font-style="italic">Understand yourself. Share meaningfully.</text>
+  <rect x="60" y="562" width="1080" height="8" rx="4" fill="url(#rainbow)"/>
+</svg>
