@@ -6,11 +6,11 @@
 <title>Personal Intimacy Profile</title>
 <meta property="og:title" content="Personal Intimacy Profile">
 <meta property="og:description" content="A thoughtful questionnaire to help you understand and share your intimacy preferences, needs, and desires with a partner.">
-<meta property="og:image" content="https://intimacy-profile.vercel.app/og-image.svg">
+<meta property="og:image" content="https://intimacy-profile.vercel.app/og-image.png">
 <meta property="og:url" content="https://intimacy-profile.vercel.app">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://intimacy-profile.vercel.app/og-image.svg">
+<meta name="twitter:image" content="https://intimacy-profile.vercel.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
@@ -687,14 +687,14 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
 // SECTION STYLES
 const STYLES = [
   null,
-  { emoji: '\u273F', name: 'Identity & Context',    sym: true },
-  { emoji: '\u2766', name: 'Touch',                 sym: true },
-  { emoji: '\u274B', name: 'Psychological Safety',  sym: true },
-  { emoji: '\u2661', name: 'Emotional Intimacy',    sym: true },
-  { emoji: '\u273A', name: 'Orgasm & Pleasure',     sym: true },
-  { emoji: '\u2735', name: 'Desire',                sym: true },
-  { emoji: '\u2736', name: 'Formative Experiences', sym: true },
-  { emoji: '\u2741', name: 'Edges & Curiosities',   sym: true },
+  { emoji: '&#10047;', name: 'Identity & Context',    sym: true },
+  { emoji: '&#10086;', name: 'Touch',                 sym: true },
+  { emoji: '&#10059;', name: 'Psychological Safety',  sym: true },
+  { emoji: '&#9825;', name: 'Emotional Intimacy',    sym: true },
+  { emoji: '&#10042;', name: 'Orgasm & Pleasure',     sym: true },
+  { emoji: '&#10037;', name: 'Desire',                sym: true },
+  { emoji: '&#10038;', name: 'Formative Experiences', sym: true },
+  { emoji: '&#10049;', name: 'Edges & Curiosities',   sym: true },
   null,
 ];
 
@@ -1296,9 +1296,9 @@ function generateProfileText() {
   const lines = [];
   const w = 46;
 
-  lines.push(`?${'?'.repeat(w)}?`);
-  lines.push(`?  ${(poss.toUpperCase() + ' INTIMACY PROFILE').padEnd(w - 2)}?`);
-  lines.push(`?${'?'.repeat(w)}?`);
+  lines.push(`&#9556;${'&#9552;'.repeat(w)}&#9559;`);
+  lines.push(`&#9553;  ${(poss.toUpperCase() + ' INTIMACY PROFILE').padEnd(w - 2)}&#9553;`);
+  lines.push(`&#9562;${'&#9552;'.repeat(w)}&#9565;`);
   lines.push('');
   lines.push('This is a personal map of how I connect, what I need,');
   lines.push('and what opens me. Offered as a gift of clarity.');
@@ -1311,7 +1311,7 @@ function generateProfileText() {
     parts.forEach(p => { if (p) { lines.push(p); lines.push(''); } });
   }
 
-  function tags(arr) { return arr?.length ? arr.map(t => `  ? ${t}`).join('\n') : null; }
+  function tags(arr) { return arr?.length ? arr.map(t => `  &#183; ${t}`).join('\n') : null; }
   function sv(id) {
     if (answers[id] === undefined) return null;
     const q = findQuestion(id);
@@ -1334,7 +1334,7 @@ function generateProfileText() {
   if (answers['id_orientation']?.length) id.push('Orientation: ' + answers['id_orientation'].join(', '));
   if (answers['id_relationship']?.length) id.push('Relationship structure: ' + answers['id_relationship'].join(', '));
   if (tv('id_body')) id.push('About my body:\n' + tv('id_body'));
-  sect('\u273F', 'IDENTITY & CONTEXT', id);
+  sect('&#10047;', 'IDENTITY & CONTEXT', id);
 
   // TOUCH
   const t = [];
@@ -1352,7 +1352,7 @@ function generateProfileText() {
   if (answers['touch_gen_penis']?.length)   t.push('Penile stimulation:\n' + tags(answers['touch_gen_penis']));
   if (answers['touch_gen_anal']?.length)    t.push('Anal and rectal stimulation:\n' + tags(answers['touch_gen_anal']));
   if (answers['touch_gen_nipple']?.length)  t.push('Nipple and chest stimulation:\n' + tags(answers['touch_gen_nipple']));
-  sect('\u2766', 'TOUCH', t);
+  sect('&#10086;', 'TOUCH', t);
 
   // PSYCHOLOGICAL
   const ps = [];
@@ -1365,7 +1365,7 @@ function generateProfileText() {
   if (tv('psych_seen_notes'))                ps.push(tv('psych_seen_notes'));
   if (answers['psych_arousal_words']?.length) ps.push('Words and phrases that activate my arousal:\n' + tags(answers['psych_arousal_words']));
   if (answers['psych_signal']?.length)       ps.push('How I signal when something is not right:\n' + tags(answers['psych_signal']));
-  sect('\u274B', 'PSYCHOLOGICAL SAFETY', ps);
+  sect('&#10059;', 'PSYCHOLOGICAL SAFETY', ps);
 
   // EMOTIONAL
   const em = [];
@@ -1377,7 +1377,7 @@ function generateProfileText() {
   if (answers['emo_aftercare_provide']?.length) em.push('Aftercare I like to provide:\n' + tags(answers['emo_aftercare_provide']));
   if (answers['emo_close']?.length)        em.push('What creates closeness:\n' + tags(answers['emo_close']));
   if (sv('emo_connection'))                em.push('Emotional-physical link: ' + sv('emo_connection'));
-  sect('\u2661', 'EMOTIONAL INTIMACY', em);
+  sect('&#9825;', 'EMOTIONAL INTIMACY', em);
 
   // ORGASM
   const og = [];
@@ -1390,7 +1390,7 @@ function generateProfileText() {
   if (answers['orgasm_style']?.length)          og.push('My preferred styles:\n' + tags(answers['orgasm_style']));
   if (answers['orgasm_approach']?.length)       og.push('Approaching climax in my body:\n' + tags(answers['orgasm_approach']));
   if (tv('orgasm_wish'))                        og.push('What I wish partners understood:\n' + tv('orgasm_wish'));
-  sect('\u273A', 'ORGASM & PLEASURE', og);
+  sect('&#10042;', 'ORGASM & PLEASURE', og);
 
   // DESIRE
   const ds = [];
@@ -1401,7 +1401,7 @@ function generateProfileText() {
   if (sv('desire_power'))                      ds.push('Power dynamic: ' + sv('desire_power'));
   if (answers['desire_sensory']?.length)       ds.push('Sensory elements that ignite me:\n' + tags(answers['desire_sensory']));
   if (tv('desire_underestimated'))             ds.push('Most underestimated about my desire:\n' + tv('desire_underestimated'));
-  sect('\u2735', 'DESIRE & THE EROTIC MIND', ds);
+  sect('&#10037;', 'DESIRE & THE EROTIC MIND', ds);
 
   // FORMATIVE
   const fm = [];
@@ -1411,7 +1411,7 @@ function generateProfileText() {
   if (tv('form_surprise_notes'))         fm.push(tv('form_surprise_notes'));
   if (answers['form_authentic']?.length) fm.push('What feels most authentically me:\n' + tags(answers['form_authentic']));
   if (tv('form_authentic_notes'))        fm.push(tv('form_authentic_notes'));
-  sect('\u2736', 'FORMATIVE EXPERIENCES', fm);
+  sect('&#10038;', 'FORMATIVE EXPERIENCES', fm);
 
   // EDGES
   const ed = [];
@@ -1421,7 +1421,7 @@ function generateProfileText() {
   if (tv('edge_self'))                     ed.push('My most expansive sexual self:\n' + tv('edge_self'));
   if (answers['edge_understand']?.length)  ed.push('What I most want you to understand:\n' + tags(answers['edge_understand']));
   if (tv('edge_understand_notes'))         ed.push(tv('edge_understand_notes'));
-  sect('\u2741', 'CURIOSITIES & EDGES', ed);
+  sect('&#10049;', 'CURIOSITIES & EDGES', ed);
 
   lines.push('='.repeat(w));
   lines.push('Created with intention. Please receive with care.');
@@ -1618,7 +1618,7 @@ function generateVisualProfile() {
 
   return `<div class="pv-wrap" id="pv-content">
     <div class="pv-header">
-      <div class="pv-header-title">${poss} Intimacy Profile \u2726</div>
+      <div class="pv-header-title">${poss} Intimacy Profile &#10022;</div>
       <div class="pv-header-sub">A personal map of how I connect, what I need, and what opens me.</div>
     </div>
     ${glanceHtml}
@@ -1652,9 +1652,9 @@ function renderIntro() {
   const val = answers['name'] || '';
   return `
     <div class="section-card intro">
-      <div class="deco sym">\u273F \u2766 \u274B \u2661 \u273A \u2735 \u2736 \u2741</div>
-      <div class="intro-logo rf">Intimacy<br>Profile<span class="star-mark">\u2726</span></div>
-      <div class="deco sym">\u2741 \u2736 \u2735 \u273A \u2661 \u274B \u2766 \u273F</div>
+      <div class="deco sym">&#10047; &#10086; &#10059; &#9825; &#10042; &#10037; &#10038; &#10049;</div>
+      <div class="intro-logo rf">Intimacy<br>Profile<span class="star-mark">&#10022;</span></div>
+      <div class="deco sym">&#10049; &#10038; &#10037; &#10042; &#9825; &#10059; &#10086; &#10047;</div>
 
       <div class="intro-card">
         <p class="intro-body">
@@ -1679,7 +1679,7 @@ function renderIntro() {
       <div style="margin-top: 1.2rem;">
         <button class="btn btn-primary" style="font-size: 0.95rem; padding: 0.8rem 2.5rem;"
           onclick="answers['name'] = document.getElementById('name-input').value; currentSection = 1; render();">
-          Let's Begin \u2192
+          Let's Begin &#8594;
         </button>
       </div>
       <p class="privacy-note">All answers remain on your device only. Nothing is sent anywhere.</p>
@@ -1734,7 +1734,7 @@ function renderSection(section) {
           ${isLast ? '' : `Next: ${nextName}`}
         </div>
         <button class="btn btn-primary" onclick="goNext()">
-          ${isLast ? 'Generate My Profile \u2726' : 'Continue \u2192'}
+          ${isLast ? 'Generate My Profile &#10022;' : 'Continue &#8594;'}
         </button>
       </div>
     </div>
@@ -1782,7 +1782,7 @@ function renderProfile() {
   return `
     <div class="section-card">
       <div class="completion-banner">
-        <div class="completion-title rf">Complete<span class="star-mark">\u2726</span></div>
+        <div class="completion-title rf">Complete<span class="star-mark">&#10022;</span></div>
         <p class="completion-sub">${name} intimacy profile is ready to share</p>
         <div class="rainbow-divider" style="margin: 1rem 0 0;"></div>
       </div>
@@ -1851,7 +1851,7 @@ function copyPlainText() {
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById('btn-copy-text');
     const orig = btn.textContent;
-    btn.textContent = '? Copied!';
+    btn.textContent = '&#10003; Copied!';
     setTimeout(() => btn.textContent = orig, 2200);
   });
 }
@@ -1862,7 +1862,7 @@ function shareAsLink() {
   navigator.clipboard.writeText(url).then(() => {
     const btn = document.getElementById('btn-share');
     const orig = btn.textContent;
-    btn.textContent = '? Link Copied!';
+    btn.textContent = '&#10003; Link Copied!';
     setTimeout(() => btn.textContent = orig, 2200);
   });
 }
@@ -1891,7 +1891,7 @@ if (location.hash && location.hash.startsWith('#profile=')) {
   }
 }
 
-// TEMP PREVIEW ? DISABLED
+// TEMP PREVIEW &#8212; DISABLED
 const _demo = {
   name: 'Alex',
   id_gender: ['Non-binary','Genderqueer'],
