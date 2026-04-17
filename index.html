@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
 <style>
 
 /* RESET */
@@ -519,8 +520,21 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
 }
 
 .pv-glance {
-  padding: 1.4rem 1.6rem 0.6rem;
+  padding: 1.4rem 1.6rem 1rem;
   border-bottom: var(--border);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 1.6rem;
+  align-items: start;
+}
+.pv-glance-title {
+  grid-column: 1 / -1;
+}
+.pv-glance-bars {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 2rem;
 }
 
 .pv-glance-title {
@@ -531,6 +545,7 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
   letter-spacing: 0.14em;
   color: #aaa;
   margin-bottom: 1rem;
+  grid-column: 1 / -1;
 }
 
 .pv-bar-row {
@@ -576,13 +591,30 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
   flex-shrink: 0;
 }
 
+.pv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 .pv-section-block {
   padding: 1.4rem 1.6rem;
   border-bottom: var(--border);
+  border-right: var(--border);
 }
 
-.pv-section-block:last-child {
-  border-bottom: none;
+.pv-section-block:nth-child(even) {
+  border-right: none;
+}
+
+.pv-section-block.pv-full-width {
+  grid-column: 1 / -1;
+  border-right: none;
+}
+
+@media (max-width: 600px) {
+  .pv-grid { grid-template-columns: 1fr; }
+  .pv-section-block { border-right: none; }
+  .pv-glance-bars { grid-template-columns: 1fr; }
 }
 
 .pv-section-head {
@@ -1257,9 +1289,14 @@ let answers = {};
 
 // URL SHARING
 function encodeData(obj) {
-  return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
+  return LZString.compressToEncodedURIComponent(JSON.stringify(obj));
 }
 function decodeData(str) {
+  // Try LZ decompression first, fall back to legacy base64
+  try {
+    const lz = LZString.decompressFromEncodedURIComponent(str);
+    if (lz) return JSON.parse(lz);
+  } catch(e) {}
   return JSON.parse(decodeURIComponent(escape(atob(str))));
 }
 
@@ -1457,7 +1494,7 @@ function generateVisualProfile() {
     }).join('');
     glanceHtml = `<div class="pv-glance">
       <div class="pv-glance-title">At a Glance</div>
-      ${bars}
+      <div class="pv-glance-bars">${bars}</div>
     </div>`;
   }
 
@@ -1550,6 +1587,7 @@ function generateVisualProfile() {
     },
     {
       style: STYLES[7],
+      fullWidth: true,
       rows: [
         { label: 'What shaped my sexuality', val: answers['form_shaped'], type: 'text' },
         { label: 'When I first felt truly met', val: answers['form_met'], type: 'text' },
@@ -1572,7 +1610,7 @@ function generateVisualProfile() {
     },
   ];
 
-  const sectionsHtml = sectionDefs.map(({ style, rows }) => {
+  const sectionsHtml = sectionDefs.map(({ style, rows, fullWidth }, idx) => {
     const rowsHtml = rows.map(row => {
       if (row.type === 'slider') {
         if (answers[row.qid] === undefined) return '';
@@ -1606,7 +1644,8 @@ function generateVisualProfile() {
 
     if (!rowsHtml.trim()) return '';
 
-    return `<div class="pv-section-block">
+    const cls = fullWidth ? 'pv-section-block pv-full-width' : 'pv-section-block';
+    return `<div class="${cls}">
       <div class="pv-section-head">
         <span class="pv-section-sym sym">${style.emoji}</span>
         <span class="pv-section-name">${style.name}</span>
@@ -1622,7 +1661,7 @@ function generateVisualProfile() {
       <div class="pv-header-sub">A personal map of how I connect, what I need, and what opens me.</div>
     </div>
     ${glanceHtml}
-    ${sectionsHtml}
+    <div class="pv-grid">${sectionsHtml}</div>
     <div class="pv-footer">Created with intention. Please receive with care.</div>
   </div>`;
 }
@@ -1871,14 +1910,18 @@ function downloadAsImage() {
   const el = document.getElementById('pv-content');
   const btn = document.getElementById('btn-img');
   btn.textContent = 'Generating...';
-  html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+  // Force a fixed rendering width so text stays readable regardless of viewport
+  const origWidth = el.style.width;
+  el.style.width = '900px';
+  html2canvas(el, { scale: 3, useCORS: true, backgroundColor: '#ffffff', width: 900, windowWidth: 900 }).then(canvas => {
+    el.style.width = origWidth;
     const name = (answers['name'] || 'my').toLowerCase().replace(/\s+/g,'_');
     const link = document.createElement('a');
     link.download = name + '_intimacy_profile.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
     btn.textContent = 'Download Image';
-  });
+  }).catch(() => { el.style.width = origWidth; btn.textContent = 'Download Image'; });
 }
 
 // INIT
