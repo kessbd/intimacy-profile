@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Personal Intimacy Profile</title>
+<meta property="og:title" content="Personal Intimacy Profile">
+<meta property="og:description" content="A thoughtful questionnaire to help you understand and share your intimacy preferences, needs, and desires with a partner.">
+<meta property="og:image" content="https://intimacy-profile.vercel.app/og-image.svg">
+<meta property="og:url" content="https://intimacy-profile.vercel.app">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://intimacy-profile.vercel.app/og-image.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
@@ -1672,7 +1679,7 @@ function renderIntro() {
       <div style="margin-top: 1.2rem;">
         <button class="btn btn-primary" style="font-size: 0.95rem; padding: 0.8rem 2.5rem;"
           onclick="answers['name'] = document.getElementById('name-input').value; currentSection = 1; render();">
-          Let's Begin ?
+          Let's Begin \u2192
         </button>
       </div>
       <p class="privacy-note">All answers remain on your device only. Nothing is sent anywhere.</p>
@@ -1695,9 +1702,9 @@ function renderSection(section) {
   return `
     <div class="section-card">
 
-      ${currentSection > 1 ? `
+      ${currentSection > 0 ? `
         <div style="margin-bottom: 1.4rem;">
-          <button class="btn btn-primary" onclick="goBack()">? Back</button>
+          <button class="btn btn-primary" onclick="goBack()">\u2190 Back</button>
         </div>
       ` : '<div style="margin-bottom: 1.4rem;"></div>'}
 
@@ -1727,7 +1734,7 @@ function renderSection(section) {
           ${isLast ? '' : `Next: ${nextName}`}
         </div>
         <button class="btn btn-primary" onclick="goNext()">
-          ${isLast ? 'Generate My Profile \u2726' : 'Continue ?'}
+          ${isLast ? 'Generate My Profile \u2726' : 'Continue \u2192'}
         </button>
       </div>
     </div>
