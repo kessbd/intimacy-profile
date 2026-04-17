@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Intimacy Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+
+/* RESET */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* VARIABLES */
+:root {
+  --off:    #faf7ff;
+  --white:  #ffffff;
+  --black:  #111111;
+  --sans:   'DM Sans', Arial, Helvetica, sans-serif;
+  --display:'Fredoka', sans-serif;
+
+  --r1: #FF2D78;
+  --r2: #FF7A35;
+  --r3: #FFD600;
+  --r4: #5FCF80;
+  --r5: #38BFFF;
+  --r6: #7B5EFF;
+  --rainbow:      linear-gradient(90deg,  var(--r1), var(--r2), var(--r3), var(--r4), var(--r5), var(--r6));
+  --rainbow-diag: linear-gradient(135deg, var(--r1), var(--r2), var(--r3), var(--r4), var(--r5), var(--r6));
+
+  --border:       3px solid var(--black);
+  --shadow:       4px 4px 0 var(--black);
+  --shadow-lg:    7px 7px 0 var(--black);
+  --shadow-card:  7px 7px 0 #7A3848;
+}
+
+/* BODY */
+body {
+  font-family: var(--sans);
+  background-color: var(--off);
+  background-image: radial-gradient(circle, rgba(0,0,0,0.13) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+  min-height: 100vh;
+  padding: 2rem 1rem 5rem;
+  color: var(--black);
+}
+
+#app { max-width: 660px; margin: 0 auto; }
+
+/* ANIMATIONS */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.section-card { animation: slideIn 0.26s ease; }
+
+/* RAINBOW HELPERS */
+.rf {
+  background: var(--rainbow);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rainbow-divider {
+  height: 3px;
+  background: var(--rainbow);
+  border-radius: 2px;
+  margin: 1.4rem 0;
+}
+
+/* PROGRESS */
+.progress-wrap { margin-bottom: 2rem; }
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
+  color: #aaa;
+}
+
+.progress-bar {
+  height: 16px;
+  background: var(--white);
+  border: var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--rainbow);
+  border-radius: 20px;
+  transition: width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ORNAMENTAL SYMBOL */
+.sym {
+  font-family: 'Segoe UI Symbol', 'Apple Symbols', 'Noto Sans Symbols', 'Symbola', serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.section-sym {
+  font-family: 'Segoe UI Symbol', 'Apple Symbols', 'Noto Sans Symbols', 'Symbola', serif;
+  font-size: 2.4rem;
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #7A3848;
+}
+
+.chip-sym {
+  font-family: 'Segoe UI Symbol', 'Apple Symbols', 'Noto Sans Symbols', 'Symbola', serif;
+}
+
+/* SECTION HEADER */
+.section-header {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.section-chip {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #bbb;
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 3.2rem;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35rem;
+}
+
+.star-mark {
+  font-size: 0.32em;
+  vertical-align: super;
+  margin-left: 0.08em;
+  line-height: 0;
+}
+
+.section-subtitle {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  color: #888;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* QUESTION CARD */
+.question {
+  background: var(--white);
+  border: var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  padding: 1.4rem;
+  margin-bottom: 1.4rem;
+}
+
+.question-label {
+  font-family: var(--sans);
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+}
+
+.question-hint {
+  font-family: var(--sans);
+  font-size: 0.73rem;
+  color: #aaa;
+  margin-bottom: 0.75rem;
+  font-style: italic;
+}
+
+.science-note {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  color: #888;
+  margin-bottom: 0.75rem;
+  font-style: italic;
+  font-weight: 400;
+  border-left: 2.5px solid var(--r1);
+  padding-left: 0.6rem;
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+/* TEXTAREA */
+textarea {
+  width: 100%;
+  background: var(--off);
+  border: var(--border);
+  border-radius: 10px;
+  color: var(--black);
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 400;
+  line-height: 1.65;
+  padding: 0.8rem;
+  resize: vertical;
+  min-height: 78px;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.1s;
+}
+
+textarea:focus {
+  outline: none;
+  box-shadow: 5px 5px 0 var(--black);
+}
+
+textarea::placeholder { color: #bbb; font-style: italic; }
+
+/* TAGS */
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.tag {
+  background: var(--white);
+  border: var(--border);
+  border-radius: 20px;
+  color: var(--black);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.3rem 0.82rem;
+  box-shadow: 2px 2px 0 var(--black);
+  transition: all 0.1s;
+  user-select: none;
+  line-height: 1.5;
+}
+
+.tag:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--black);
+}
+
+.tag.active {
+  color: var(--black);
+  font-weight: 800;
+  background: linear-gradient(white, white) padding-box,
+              var(--rainbow) border-box;
+  border: 3px solid transparent;
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+/* SLIDER */
+.slider-wrap { padding: 0.2rem 0; }
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  color: #aaa;
+  font-style: italic;
+  margin-bottom: 0.65rem;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 12px;
+  background: var(--off);
+  border: var(--border);
+  border-radius: 20px;
+  outline: none;
+  box-shadow: var(--shadow);
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--rainbow-diag);
+  border: 2.5px solid var(--black);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--black);
+  transition: transform 0.1s;
+}
+
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+.slider-value-wrap { text-align: center; margin-top: 0.65rem; }
+
+.slider-value {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--black);
+  background: linear-gradient(white, white) padding-box,
+              var(--rainbow) border-box;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  display: inline-block;
+  padding: 0.18rem 1rem;
+}
+
+/* BUTTONS */
+.btn {
+  background: var(--white);
+  border: var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  color: var(--black);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.84rem;
+  font-weight: 800;
+  padding: 0.65rem 1.6rem;
+  transition: all 0.08s;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  line-height: 1;
+}
+
+.btn:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0 var(--black);
+}
+
+.btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--black);
+}
+
+.btn-primary {
+  background: var(--rainbow-diag);
+  color: var(--white);
+  border-color: var(--black);
+}
+
+/* NAV */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2.5rem;
+  padding-top: 1.4rem;
+}
+
+/* INTRO */
+.intro { padding: 0.5rem 0 2rem; text-align: left; }
+
+.deco {
+  font-size: 1.2rem;
+  letter-spacing: 0.28em;
+  color: #7A3848;
+  margin: 0.5rem 0;
+}
+
+.intro-logo {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 5rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2rem;
+}
+
+.intro-card {
+  background: var(--white);
+  border: var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  padding: 1.6rem;
+  margin: 1.2rem 0;
+}
+
+.intro-body {
+  font-family: var(--sans);
+  color: #555;
+  font-size: 0.94rem;
+  line-height: 1.85;
+  font-weight: 400;
+}
+
+.name-label {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-bottom: 0.55rem;
+  display: block;
+  color: #aaa;
+}
+
+.name-input {
+  width: 100%;
+  background: var(--off);
+  border: var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  color: var(--black);
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  transition: box-shadow 0.1s;
+}
+
+.name-input:focus {
+  outline: none;
+  box-shadow: 4px 4px 0 var(--r1);
+}
+
+.privacy-note {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  color: #bbb;
+  margin-top: 1rem;
+  font-style: italic;
+  text-align: center;
+}
+
+/* RAINBOW IDENTITY STRIPE */
+.rainbow-stripe {
+  height: 5px;
+  background: var(--rainbow);
+  border-radius: 3px;
+  margin-bottom: 1.3rem;
+}
+
+/* COMPLETION */
+.completion-banner {
+  background: var(--white);
+  border: var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.completion-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 2.8rem;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.completion-sub {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.4rem;
+  font-style: italic;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-top: 1.4rem;
+}
+
+/* VISUAL PROFILE */
+.pv-wrap {
+  background: var(--white);
+  border: var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.pv-header {
+  background: var(--rainbow-diag);
+  padding: 2rem 1.8rem 1.6rem;
+}
+
+.pv-header-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 2.8rem;
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.pv-header-sub {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.8);
+  margin-top: 0.4rem;
+}
+
+.pv-glance {
+  padding: 1.4rem 1.6rem 0.6rem;
+  border-bottom: var(--border);
+}
+
+.pv-glance-title {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.pv-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.7rem;
+}
+
+.pv-bar-name {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--black);
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
+.pv-bar-track {
+  flex: 1;
+  height: 10px;
+  border: 2px solid var(--black);
+  border-radius: 20px;
+  background: var(--off);
+  overflow: hidden;
+}
+
+.pv-bar-fill {
+  height: 100%;
+  background: var(--rainbow);
+  border-radius: 20px;
+}
+
+.pv-bar-val {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--black);
+  min-width: 100px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.pv-section-block {
+  padding: 1.4rem 1.6rem;
+  border-bottom: var(--border);
+}
+
+.pv-section-block:last-child {
+  border-bottom: none;
+}
+
+.pv-section-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.pv-section-sym {
+  font-family: 'Segoe UI Symbol', 'Apple Symbols', 'Noto Sans Symbols', 'Symbola', serif;
+  font-size: 1.8rem;
+  color: #7A3848;
+  line-height: 1;
+}
+
+.pv-section-name {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.pv-rainbow-divider {
+  height: 3px;
+  background: var(--rainbow);
+  border-radius: 2px;
+  margin-bottom: 1rem;
+}
+
+.pv-row {
+  margin-bottom: 0.85rem;
+}
+
+.pv-row-label {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #aaa;
+  margin-bottom: 0.35rem;
+}
+
+.pv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.pv-chip {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--black);
+  background: linear-gradient(white, white) padding-box,
+              var(--rainbow) border-box;
+  border: 2.5px solid transparent;
+  border-radius: 20px;
+  padding: 0.2rem 0.65rem;
+  line-height: 1.5;
+}
+
+.pv-text-val {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-style: italic;
+  color: #555;
+  line-height: 1.7;
+}
+
+.pv-footer {
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-style: italic;
+  color: #aaa;
+  padding: 1.2rem 1.6rem;
+  border-top: var(--border);
+}
+
+/* PRINT */
+@media print {
+  body { background: white; padding: 0; }
+  .nav, .profile-actions, .progress-wrap, .completion-banner { display: none; }
+  .pv-wrap { box-shadow: none; border: 1px solid #ccc; }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .intro-logo    { font-size: 3.6rem; }
+  .section-title { font-size: 2.6rem; }
+  .pv-bar-name   { min-width: 90px; font-size: 0.62rem; }
+  .pv-bar-val    { min-width: 70px; font-size: 0.62rem; }
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+
+// SECTION STYLES
+const STYLES = [
+  null,
+  { emoji: '‚úø', name: 'Identity & Context',    sym: true },
+  { emoji: '‚ù¶', name: 'Touch',                 sym: true },
+  { emoji: '‚ùã', name: 'Psychological Safety',  sym: true },
+  { emoji: '‚ô°', name: 'Emotional Intimacy',    sym: true },
+  { emoji: '‚ú∫', name: 'Orgasm & Pleasure',     sym: true },
+  { emoji: '‚úµ', name: 'Desire',                sym: true },
+  { emoji: '‚ú∂', name: 'Formative Experiences', sym: true },
+  { emoji: '‚ùÅ', name: 'Edges & Curiosities',   sym: true },
+  null,
+];
+
+// SECTIONS & QUESTIONS
+const SECTIONS = [
+
+{ id: 'intro', type: 'intro' },
+
+// 1: IDENTITY
+{
+  id: 'identity',
+  subtitle: 'Help us speak your language. These answers shape the whole profile.',
+  rainbow: true,
+  questions: [
+    {
+      id: 'id_gender',
+      label: 'How do you identify? (gender)',
+      hint: 'Select all that feel right',
+      type: 'tags',
+      options: ['Woman','Man','Non-binary','Genderqueer','Genderfluid','Trans woman','Trans man','Agender','Two-spirit','Intersex','Questioning','I use my own language']
+    },
+    {
+      id: 'id_gender_own',
+      label: 'If you use your own language for your gender, share it here (optional)',
+      type: 'textarea',
+      placeholder: 'e.g., Demi-girl, neutrois, butch, femme, or anything else'
+    },
+    {
+      id: 'id_pronouns',
+      label: 'Preferred pronouns (optional)',
+      hint: 'Select all that apply',
+      type: 'tags',
+      options: ['she/her','he/him','they/them','she/they','he/they','ze/zir','xe/xem','any pronouns','ask me']
+    },
+    {
+      id: 'id_anatomy',
+      label: 'What anatomy do you have? (helps us tailor some questions)',
+      hint: 'Select all that apply. Skip if you prefer not to say.',
+      type: 'tags',
+      options: ['Vulva and clitoris','Penis and testicles','Uterus and cervix','Prostate','I have had chest or genital surgery','My anatomy is complex or different','Prefer not to say']
+    },
+    {
+      id: 'id_neurodiv',
+      label: 'Do you identify as neurodivergent?',
+      hint: 'Helps us frame some questions more helpfully',
+      type: 'tags',
+      options: ['Autistic / on the autism spectrum','ADHD','Both autistic and ADHD','Dyslexic','Other neurodivergent identity','Neurotypical','Unsure or still exploring']
+    },
+    {
+      id: 'id_orientation',
+      label: 'How do you describe your attraction or orientation?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['Straight / Heterosexual','Gay','Lesbian','Bisexual','Pansexual','Queer','Asexual / Ace spectrum','Demisexual','Aromantic spectrum','Fluid','Questioning','I use my own language']
+    },
+    {
+      id: 'id_relationship',
+      label: 'What is your relationship structure or preference?',
+      hint: 'Select all that apply',
+      type: 'tags',
+      options: ['Monogamous','Ethically non-monogamous (ENM)','Polyamorous','Relationship anarchist','Open relationship','Solo poly','Partnered','Single','Exploring']
+    },
+    {
+      id: 'id_body',
+      label: 'Is there anything about your body or health that would help a partner understand how to be with you?',
+      hint: 'Chronic pain, disability, dysphoria, sensory sensitivities, surgery history. Only what feels comfortable to share.',
+      type: 'textarea',
+      placeholder: 'e.g., I have endometriosis and certain positions can cause pain. I experience gender dysphoria around certain kinds of touch. I use a wheelchair and...'
+    },
+  ]
+},
+
+// 2: TOUCH
+{
+  id: 'touch',
+  subtitle: 'The physical language of your body',
+  questions: [
+    {
+      id: 'touch_approach',
+      label: 'How do you prefer to be physically approached?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['Slowly and deliberately','Suddenly and spontaneously','From behind','Face-to-face with eye contact','Verbally first, then touch','Playfully','With real intention','In darkness or low light','After a long buildup','Wordlessly, through presence']
+    },
+    {
+      id: 'touch_type',
+      label: 'Where does your body sit on this spectrum of touch?',
+      science: 'C-tactile afferent nerve fibres respond best to slow, gentle stroking at 1 to 10 cm per second, activating a comfort and bonding system separate from targeted sexual sensation.',
+      type: 'slider',
+      min: 'Affective: soft, attuned, flowing',
+      max: 'Deliberate: purposeful, varied, intense',
+      steps: ['Purely affective','Mostly soft','A rich blend','Mostly purposeful','Deliberate and intense']
+    },
+    {
+      id: 'touch_pressure',
+      label: 'What pressure feels right in your body?',
+      type: 'slider',
+      min: 'Feather-light, barely there',
+      max: 'Deep, grounding, firm',
+      steps: ['Feather-light','Light','Medium','Firm','Deep and grounding']
+    },
+    {
+      id: 'touch_welcome',
+      label: 'Where does your body most welcome touch?',
+      hint: 'Select all that apply',
+      type: 'tags',
+      options: ['Scalp and hair','Face and jaw','Neck and throat','Shoulders','Back','Chest / sternum','Nipples','Stomach and hips','Inner thighs','Genitals / front','Genitals / rear','Perineum','Legs and calves','Feet','Hands and fingers','Ears','Spine','Lower back and sacrum']
+    },
+    {
+      id: 'touch_care',
+      label: 'Are there areas you want approached with care, or that feel off-limits?',
+      hint: 'Select all that apply',
+      type: 'tags',
+      options: ['Stomach and abdomen','Genitals without explicit invitation','Neck and throat','Face','Lower back','Feet','Scars or sensitive skin','Testicles','During menstruation or hormonal shifts','When I am in pain or unwell','Wrists and joints','Anywhere near my face','Ribs and sides']
+    },
+    {
+      id: 'touch_care_notes',
+      label: 'Any specific notes on areas to avoid or approach carefully (optional)',
+      type: 'textarea',
+      placeholder: 'e.g., My left shoulder has an old injury. I need a verbal check-in before anything near my...'
+    },
+    {
+      id: 'touch_ticklish',
+      label: 'Are there areas where you are particularly ticklish or reactive?',
+      hint: 'Select all that apply',
+      type: 'tags',
+      options: ['Feet','Ribs and sides','Inner thighs','Neck','Underarms','Lower back','Stomach','Behind the knees','Ears','Wrists','None notably']
+    },
+    {
+      id: 'touch_present',
+      label: 'What kind of touch brings you most fully into your body?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['Slow, sustained pressure','Being held completely still','Scalp and hair stroked','Skin traced very slowly','Being held from behind','Weight fully supported by another person','Temperature variation (warm or cool)','Rhythmic repetition','Breath close to my skin','Words spoken quietly while touching','Alternating soft and firm','Full-body contact, skin to skin','Full palm or flat hand pressure','Deep tissue massage strokes','Long gliding massage strokes','Warm oil or lotion']
+    },
+    {
+      id: 'touch_sensation',
+      label: 'Where do you sit on the sensation spectrum?',
+      science: 'Pain and pleasure share neurological pathways. For some people, moderate pain triggers endorphin and adrenaline release, creating altered states of arousal. The experience is highly individual and can shift with context.',
+      type: 'slider',
+      min: 'Purely soft and gentle',
+      max: 'Pleasure through pain and intensity',
+      steps: ['Purely soft','Mostly gentle','A range of sensation','Some intensity or pain','Deep pleasure through pain']
+    },
+    {
+      id: 'touch_impact',
+      label: 'What is your relationship with impact, pressure, or sensation play?',
+      hint: 'Select all that resonate. Giving means you want to deliver it; receiving means you want to experience it.',
+      type: 'tags',
+      options: ['Spanking: giving','Spanking: receiving','Flogging: giving','Flogging: receiving','Slapping: giving','Slapping: receiving','Scratching: giving','Scratching: receiving','Biting: giving','Biting: receiving','Pinching: giving','Pinching: receiving','Hair pulling: giving','Hair pulling: receiving','Sensation play (ice, wax, textures): giving','Sensation play (ice, wax, textures): receiving','Not my thing','Open to exploring']
+    },
+    {
+      id: 'touch_gen_clitoris',
+      condition: (a) => { const x = a['id_anatomy']||[]; return x.length===0 || x.some(v=>v.includes('Vulva')); },
+      label: 'Clitoral and vulval stimulation: what feels best?',
+      hint: 'Select all that apply',
+      science: 'The clitoris extends internally as two crura and two vestibular bulbs. The external glans is just one entry point. Internal stimulation through the vaginal wall engages the broader clitoral complex, explaining why different types of touch produce different sensations.',
+      type: 'tags',
+      options: ['Direct stimulation on the glans','Indirect touch through the hood','Firm and sustained pressure','Light and teasing','Circular motion','Pulsing or tapping','Suction or vacuum','Vibration','Penetration alongside external touch','Anterior wall pressure (G-area)','Slow build only, no rushing','I prefer not to have this touched directly']
+    },
+    {
+      id: 'touch_gen_penis',
+      condition: (a) => { const x = a['id_anatomy']||[]; return x.length===0 || x.some(v=>v.includes('Penis')); },
+      label: 'Penile stimulation: what feels best?',
+      hint: 'Select all that apply',
+      science: 'The frenulum (underside of the glans where it meets the shaft) is among the most densely innervated areas of the penis. The glans, shaft, frenulum, and perineum have distinct nerve distributions and respond differently to pressure, rhythm, and texture.',
+      type: 'tags',
+      options: ['Frenulum focus','Glans stimulation','Full shaft strokes','Base and root stimulation','Tight grip','Loose and teasing','Slow and sustained','Fast rhythm','Varied rhythm','Oral stimulation','Perineum pressure alongside','Testicle stimulation alongside','I prefer not to have this touched directly']
+    },
+    {
+      id: 'touch_gen_anal',
+      label: 'Anal and rectal stimulation: what feels true for you?',
+      hint: 'Select all that apply',
+      science: 'The anus has a high concentration of nerve endings and two sphincter muscles that respond to relaxation and breath. Rectal stimulation can indirectly engage the prostate in people who have one, and the posterior clitoral complex in people with vulvas.',
+      type: 'tags',
+      options: ['External stimulation (rimming) only','Fingers internally','Toys internally','Prostate stimulation','Penetration','Light touch only','Slow build is essential','Only with significant trust established','Open to exploring','Not for me']
+    },
+    {
+      id: 'touch_gen_nipple',
+      label: 'Nipple and chest stimulation: how do you relate to it?',
+      hint: 'Select all that apply',
+      science: 'Neuroimaging studies show nipple stimulation activates the same brain regions as genital touch. Sensitivity varies widely and can shift with hormonal changes, medications, or chest surgery.',
+      type: 'tags',
+      options: ['Very sensitive, gentle only','Moderate pressure','Firm grip or suction','Nipple clamps or clips','Biting','A significant pleasure pathway for me','Pleasurable as part of whole-body touch','Dysphoric or off-limits','Off-limits post-surgery','Not a primary focus for me']
+    },
+  ]
+},
+
+// 3: PSYCHOLOGICAL SAFETY
+{
+  id: 'psychological',
+  subtitle: 'What your nervous system needs to open',
+  questions: [
+    {
+      id: 'psych_needs',
+      label: 'Which cues help your nervous system shift into a state of safety?',
+      hint: 'Select all that resonate',
+      science: 'Polyvagal theory (Dr Stephen Porges) describes how the autonomic nervous system scans for safety cues. These signals activate our social engagement system, which is the foundation of intimacy.',
+      type: 'tags',
+      options: ['Time and patience','Humor to balance intensity','Eye contact','Silence and stillness','Verbal reassurance','Words of praise','Complete privacy','A ritual or transition moment','Physical warmth','A specific conversation first','Knowing I am not being watched or judged','Complete presence from my partner','Being asked, not assumed','Being genuinely praised or admired']
+    },
+    {
+      id: 'psych_attachment',
+      label: 'Which of these feels closest to your attachment style in intimate relationships?',
+      hint: 'Select one or more. Most people are a blend.',
+      science: 'Attachment styles (Bowlby, Ainsworth) shape how we seek and receive closeness. Knowing yours helps partners understand your rhythm of connection and independence.',
+      type: 'tags',
+      options: ['Secure: I settle into closeness fairly easily','Anxious: I tend to need reassurance and fear distance','Avoidant: I value independence and too much closeness can overwhelm me','Disorganised: I want closeness and pull away from it at the same time','Still figuring it out']
+    },
+    {
+      id: 'psych_safe',
+      label: 'What helps you feel truly safe and open with another person?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['Patience without pressure','Consistency over time','Humor to balance intensity, because it is human','Being asked rather than assumed','A constructive spirit around what I reveal','No performance expected of me','Following through on what they say','Accepting my limits without question','Eye contact held gently','Complete presence, phone away','Accepting my no without negotiation','Being witnessed without being fixed','Genuine curiosity about who I am']
+    },
+    {
+      id: 'psych_safe_notes',
+      label: 'Anything else that helps you feel safe (optional)',
+      type: 'textarea',
+      placeholder: 'e.g., When they remember specific things I have shared. When there is no agenda beyond being together...'
+    },
+    {
+      id: 'psych_unsafe',
+      label: 'What makes it harder for you to feel safe and open?',
+      hint: 'Select all that feel true',
+      type: 'tags',
+      options: ['Being rushed','Sarcasm in vulnerable moments','Absence of curiosity or genuine interest','Being pressured after I have said no','Feeling judged or assessed','Inconsistency or unpredictability','Not being heard','Feeling invisible','Interruptions or distractions','Comparisons to other partners','Sudden or unexplained shifts in energy','Unresolved tension left unnamed']
+    },
+    {
+      id: 'psych_seen',
+      label: 'What words or phrases make you feel deeply seen?',
+      hint: 'Select all that resonate, or add your own below',
+      type: 'tags',
+      options: ['I am not going anywhere','You do not have to perform for me','I see you','Take your time','You are safe here','I have got you','I like you exactly as you are','You can tell me','I am listening','There is nowhere I would rather be','You are enough']
+    },
+    {
+      id: 'psych_seen_notes',
+      label: 'Any phrases in your own words (optional)',
+      type: 'textarea',
+      placeholder: 'Add any words or phrases that matter to you personally...'
+    },
+    {
+      id: 'psych_arousal_words',
+      label: 'What words, names, or phrases activate your arousal?',
+      hint: 'Names, titles, commands, sounds, wordplay. CNC (consensual non-consent) language is welcome here.',
+      type: 'tags',
+      options: ['"Good girl"','"Good boy"','"Good one"','Being called by a title (Sir, Daddy, Mistress, Mummy)','My name said a certain way','Explicit language','Soft whispered words','Firm commands','Praise and admiration','Degradation (consensual)','Resistance language ("no", "stop", "please")','Just like that','More','Dirty talk','Storytelling or fantasy narration','Silence speaks loudest for me','I am still discovering this']
+    },
+    {
+      id: 'psych_signal',
+      label: 'How do you typically communicate when something is not right?',
+      hint: 'Select all that feel true',
+      type: 'tags',
+      options: ['I say it immediately','I go quiet and need someone to check in','I use a safeword or agreed signal','I need time to process, then bring it up','I freeze and need gentle checking in','I laugh or deflect nervously','I can almost always find the words','I write it out after']
+    },
+  ]
+},
+
+// 4: EMOTIONAL INTIMACY
+{
+  id: 'emotional',
+  subtitle: 'How your heart and nervous system are connected',
+  questions: [
+    {
+      id: 'emo_desire_type',
+      label: 'How does desire typically arrive for you?',
+      science: 'Rosemary Basson\'s circular model (2001) shows that for many people desire is responsive. It emerges in response to intimacy and context, not spontaneously. Neither is more valid, and knowing yours helps enormously.',
+      type: 'slider',
+      min: 'Responsive: emerges in response to touch and context',
+      max: 'Spontaneous: arrives on its own, unprompted',
+      steps: ['Mostly responsive','Leaning responsive','A real mix','Leaning spontaneous','Mostly spontaneous']
+    },
+    {
+      id: 'emo_state',
+      label: 'What emotional state allows you to be most fully present during intimacy?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['Feeling like there is nowhere to be','Playful and light','After laughing about something real','After an honest conversation','Feeling genuinely desired','Free from time pressure or obligation','Physically comfortable and at ease','Well rested','Slightly tired and relaxed','A little adventurous','Emotionally settled','After physical exercise or movement','Feeling attractive or beautiful']
+    },
+    {
+      id: 'emo_emotions',
+      label: 'How do emotions move through you during and after sex?',
+      hint: 'Select all that feel true',
+      type: 'tags',
+      options: ['I sometimes cry and need holding','I go quiet and reflective','I feel expansive and want to talk','I laugh or feel playful','I feel raw and open','I feel closer than any other time','I feel a release of something I have been carrying','I want silence and space afterward','I feel energised and alive','I feel in my element','I feel more fully in my skin','I sometimes feel a drop or low mood afterward','I feel peaceful and safe','I process it later, not in the moment']
+    },
+    {
+      id: 'emo_emotions_want',
+      label: 'What emotions would you love to move through during and after sex?',
+      hint: 'An aspiration, not an expectation. What would feel like the fullest version of the experience?',
+      type: 'tags',
+      options: ['Deep surrender and release','Pure joy and laughter','A sense of being completely known','Expansive aliveness','Tenderness and gentleness','Intensity and catharsis','Spiritual connection','Safety and ease','Wild abandon','Tears of relief or release','Profound physical pleasure','Being utterly present','Feeling beautiful and desired']
+    },
+    {
+      id: 'emo_aftercare',
+      label: 'What aftercare does your nervous system need?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['Being held in silence','Words of affirmation','Water and food','A warm blanket','Physical space to decompress','Talking it through','Humor and lightness','More touch','Sleep','Being checked in on later','None. I return to myself quickly']
+    },
+    {
+      id: 'emo_aftercare_provide',
+      label: 'What kind of aftercare do you like to provide?',
+      hint: 'Select all that feel natural',
+      type: 'tags',
+      options: ['Holding in silence','Words of affirmation','Fetching water and food','Wrapping in warmth','Giving physical space','Talking it through','Lightness and humor','More touch','Staying close while they sleep','Checking in the next day','I find it hard to know what to offer','I am still learning this']
+    },
+    {
+      id: 'emo_close',
+      label: 'What makes you feel truly emotionally close to someone?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['Shared vulnerability','Being witnessed in a raw moment','Small acts of real attention','Being remembered and thought about','Laughing together until it hurts','Talking about the big things honestly','Physical presence without distraction','Accepting parts I usually hide','Making effort without being asked','Reciprocal openness','Being known without explanation']
+    },
+    {
+      id: 'emo_connection',
+      label: 'How entangled are your emotional and physical experiences of intimacy?',
+      type: 'slider',
+      min: 'I can fully separate them',
+      max: 'They are completely inseparable for me',
+      steps: ['I separate them easily','Somewhat linked','Meaningfully connected','Deeply linked','Completely inseparable']
+    },
+  ]
+},
+
+// 5: ORGASM & PLEASURE
+{
+  id: 'orgasm',
+  subtitle: 'The landscape of your climax and sensation',
+  questions: [
+    {
+      id: 'orgasm_types',
+      label: 'What types of orgasm or intense pleasure have you experienced or explored?',
+      hint: 'Select all that apply. Anatomy varies, so take what fits your body.',
+      science: 'Different nerve pathways (pudendal, pelvic, hypogastric, vagus) create distinct experiences of pleasure. The internal clitoral complex extends several centimetres inside the body in people with vulvas. Orgasm is also possible through non-genital stimulation for some people.',
+      type: 'tags',
+      options: ['Clitoral / external genital','Internal / deep (G-spot / anterior wall)','Cervical / deep pressure','Squirting or female ejaculation','Anal','Prostate / P-spot','Nipple / chest','Full-body / energetic','Multiple orgasms','Sustained edging / plateau states','Emotional / release orgasm','Tantric or breath-based','Non-genital touch','Still exploring']
+    },
+    {
+      id: 'orgasm_explore_partner',
+      label: 'What types of orgasm or pleasure are you interested in exploring with a partner?',
+      hint: 'Select all that feel true',
+      type: 'tags',
+      options: ['Clitoral / external genital','Internal / deep stimulation','Squirting or female ejaculation','Anal orgasm','Prostate orgasm','Nipple / chest','Full-body / energetic','Mutual orgasm at the same time','Extended edging together','Tantric or breath-based','Non-genital exploration','Something I have not tried yet']
+    },
+    {
+      id: 'orgasm_concordance',
+      label: 'Do you experience arousal non-concordance?',
+      hint: 'Select what feels true',
+      science: 'Arousal non-concordance (Emily Nagoski, Come As You Are) is when physical genital response and subjective desire do not match. This is normal and common across all genders.',
+      type: 'tags',
+      options: ['Yes, often. My body and desire do not always align','Sometimes, depending on stress or context','Rarely. They usually match','My physical and mental arousal are generally aligned','I have not paid attention to this yet']
+    },
+    {
+      id: 'orgasm_conditions',
+      label: 'What mental or emotional conditions need to be present for you to reach climax?',
+      hint: 'Select all that apply',
+      type: 'tags',
+      options: ['Feeling completely unjudged','Being mentally present, not in my head','Feeling genuinely desired','Privacy and no risk of interruption','Permission to be loud or expressive','Permission to be quiet and still','Trust in my partner','Freedom to take as long as I need','No pressure to perform or finish','A specific mental focus or fantasy','Being physically warm and comfortable','Feeling emotionally connected']
+    },
+    {
+      id: 'orgasm_importance',
+      label: 'How important is your own orgasm to your experience of intimacy?',
+      type: 'slider',
+      min: 'Not central. It is about the journey.',
+      max: 'Very important to me',
+      steps: ['The journey is everything','A nice destination','Meaningful','Important','Very important']
+    },
+    {
+      id: 'orgasm_partner_importance',
+      label: 'How important is your partner\'s orgasm to your experience of intimacy?',
+      type: 'slider',
+      min: 'Not central. The connection is what matters.',
+      max: 'Very important to me.',
+      steps: ['The journey together is everything','A beautiful destination','Meaningful to me','Important to me','Very important to me']
+    },
+    {
+      id: 'orgasm_style',
+      label: 'What styles of arousal and release feel most like you?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['Long, slow builds','Quick and intense','Edging and denial','Multiple orgasms','Sustained arousal without climax','One powerful release','Unexpected timing','Building in tandem with a partner','Solo exploration first']
+    },
+    {
+      id: 'orgasm_approach',
+      label: 'What does the experience of approaching climax feel like in your body?',
+      hint: 'Select all that feel true',
+      type: 'tags',
+      options: ['My breath deepens and changes','I go very still','I need to move or rock','I need silence','I need certain sounds or words','I lose awareness of time','I feel heat or tingling spread through me','I need sustained rhythm without change','My muscles tighten','I need to close my eyes','I become very vocal','I go inward and quiet','It builds in waves']
+    },
+    {
+      id: 'orgasm_wish',
+      label: 'What is something about your pleasure experience you wish partners understood?',
+      type: 'textarea',
+      placeholder: 'e.g., It takes longer than people expect. Stopping to ask mid-build breaks the spell...'
+    },
+  ]
+},
+
+// 6: DESIRE
+{
+  id: 'desire',
+  subtitle: 'What ignites you, body and imagination',
+  questions: [
+    {
+      id: 'desire_accelerators',
+      label: 'What are your most reliable sexual accelerators? Things that consistently move you toward desire.',
+      hint: 'Select all that apply',
+      science: 'The Dual Control Model (Janssen and Bancroft) identifies a Sexual Excitation System (accelerator) and a Sexual Inhibition System (brake). Understanding your personal set points is one of the most useful things you can know about your sexuality.',
+      type: 'tags',
+      options: ['Being truly seen and attended to','A specific atmosphere or setting','Feeling genuinely desired','Slow build over time','Eye contact that holds','Being touched in the right places first','A particular voice or the right words','A familiar or exciting scent','Privacy and safety','Feeling beautiful or wanted','Fantasy or narrative in my mind','Connection and warmth beforehand','Playful energy','Being praised or admired','Tension and anticipation','After physical exercise or movement','Good music','Dim lighting or darkness','Uncertainty and surprise','Being in nature or open air','A charged social context','The sense of being watched (consensual)','An outdoor or semi-public setting']
+    },
+    {
+      id: 'desire_accelerators_other',
+      label: 'Anything else that reliably accelerates your desire (optional)',
+      type: 'textarea',
+      placeholder: 'e.g., A specific smell. A particular piece of music. The way someone moves...'
+    },
+    {
+      id: 'desire_brakes',
+      label: 'What are common brakes? Things that dampen arousal even when you want to be present.',
+      hint: 'Select all that apply. Brakes are not failures, they are information.',
+      type: 'tags',
+      options: ['Stress or mental noise','Worrying about how I look or sound','Performance pressure','Unresolved conflict with my partner','Physical discomfort or pain','Feeling unheard or disconnected recently','Fear of judgment or shame','External distractions or sounds','Past difficult experiences surfacing','Body-related anxiety','Feeling rushed or on a schedule','Hunger, tiredness, or illness','Very little usually stops me']
+    },
+    {
+      id: 'desire_mind',
+      label: 'What does your erotic mind find most activating?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['Power dynamics','Tenderness and vulnerability','Words, voice and language','Visual beauty','Fantasy and narrative','Taboo and psychological edges','Surprise','Slowness and patience','Intensity','Humor and playfulness','Spiritual or energetic connection','Novelty and newness','Ritual and intention','Being truly known','Seeking to truly know my partner','Being an object of desire']
+    },
+    {
+      id: 'desire_power',
+      label: 'What is your relationship with power in intimate space?',
+      science: 'Preferences for dominance and submission exist on a spectrum and are not fixed. Research (Lehmiller, 2018) found power dynamics are among the most common fantasies across all genders and orientations.',
+      type: 'slider',
+      min: 'I want to fully surrender',
+      max: 'I want to take full control',
+      steps: ['Full surrender','Mostly receptive','I flow freely between both','Mostly in control','Full control']
+    },
+    {
+      id: 'desire_sensory',
+      label: 'What sensory elements most ignite your desire?',
+      hint: 'Select all that apply',
+      type: 'tags',
+      options: ['Sound and voice','Scent and pheromones','Texture and fabric','Visual aesthetics','Temperature (heat or cold)','Pressure or pain','Restraint and containment','Breath','Rhythm and movement','Music','Sensory reduction or blindfolds','Nature and outdoor contexts','Air and wind on the skin','Water: immersion, rain, or the shower','Earth and raw natural textures']
+    },
+    {
+      id: 'desire_underestimated',
+      label: 'What is the most underestimated or misunderstood thing about your desire?',
+      type: 'textarea',
+      placeholder: 'e.g., How much I need to feel respected before I can feel turned on. How much I love slowness when people expect intensity...'
+    },
+  ]
+},
+
+// 7: FORMATIVE EXPERIENCES
+{
+  id: 'formative',
+  subtitle: 'What shaped your understanding of your own sexuality',
+  questions: [
+    {
+      id: 'form_shaped',
+      label: 'What experience most shaped how you understand your own sexuality?',
+      hint: 'Abstract, metaphorical, or specific. Whatever feels right to share.',
+      type: 'textarea',
+      placeholder: 'e.g., The first time I felt truly desired and did not run from it. A relationship where I learned I was not broken...'
+    },
+    {
+      id: 'form_met',
+      label: 'When did you first feel truly met by a partner, physically or emotionally?',
+      type: 'textarea',
+      placeholder: 'e.g., The first time someone asked what I wanted and waited for the real answer...'
+    },
+    {
+      id: 'form_surprise',
+      label: 'What have you learned about yourself that genuinely surprised you?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['That I needed more tenderness than I admitted','That what I feared wanting was actually core to who I am','How much emotional connection matters to my arousal','That my body knows things before my mind does','That I could ask for what I wanted','That I am more submissive than I thought','That I am more dominant than I thought','That emotional safety is a prerequisite for me','That I had been performing instead of feeling','That my preferences changed over time','That I could experience more types of pleasure than I knew']
+    },
+    {
+      id: 'form_surprise_notes',
+      label: 'Anything else that surprised you (optional)',
+      type: 'textarea',
+      placeholder: 'Add anything in your own words...'
+    },
+    {
+      id: 'form_authentic',
+      label: 'What parts of your sexuality feel most authentically and completely like you?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['My need for deep presence','The way I come alive with certain kinds of intensity','My tenderness','My power or dominance','My playfulness','My spirituality in intimate space','My need for emotional connection first','My capacity for vulnerability','My independence in desire','My curiosity and openness','My physicality and body awareness']
+    },
+    {
+      id: 'form_authentic_notes',
+      label: 'Anything else that feels authentically you (optional)',
+      type: 'textarea',
+      placeholder: 'Add anything in your own words...'
+    },
+  ]
+},
+
+// 8: EDGES & CURIOSITIES
+{
+  id: 'edges',
+  subtitle: 'Where you are drawn and what you are becoming',
+  questions: [
+    {
+      id: 'edge_curious',
+      label: 'What are you curious to explore that you have not yet?',
+      hint: 'Select all that feel true. This is a no-judgment space.',
+      type: 'tags',
+      options: ['Extended sensation play','Blindfolds and sensory reduction','Bondage: giving','Bondage: receiving','Dominant dynamics (I lead)','Submissive dynamics (I follow)','Being directed by a voice I trust','Wax or temperature play: giving','Wax or temperature play: receiving','Role play or personas','Group intimacy','Exhibitionism','Voyeurism','Tantric breathwork or practices','Orgasm control: giving','Orgasm control: receiving','Impact play: giving','Impact play: receiving','Body worship: giving','Body worship: receiving','Humiliation dynamics: giving','Humiliation dynamics: receiving','Strap-on play: giving','Strap-on play: receiving','Gender play or cross-dressing','Water sports','Somnophilia (with full consent established in advance)','BDSM scenes with structured protocols','Breath play (with knowledge and care)','Fisting or deep penetration: giving','Fisting or deep penetration: receiving','Pet play','Public or semi-public encounters']
+    },
+    {
+      id: 'edge_curious_notes',
+      label: 'Anything else, including things not listed here (optional)',
+      type: 'textarea',
+      placeholder: 'Add anything in your own words...'
+    },
+    {
+      id: 'edge_safety',
+      label: 'What would a partner need to offer for you to feel safe at your edge?',
+      hint: 'Select all that apply',
+      type: 'tags',
+      options: ['Demonstrated patience over time','Being able to read my body without me speaking','Explicit conversation before we begin','Agreed signals and safewords','Prior experience and knowledge','Willingness to stop without question','Checking in without breaking the mood','Starting slowly and building','A commitment to aftercare','Knowing my history without judgment','Real trust built over time, not rushed']
+    },
+    {
+      id: 'edge_self',
+      label: 'What does your most expansive, liberated sexual self look like?',
+      type: 'textarea',
+      placeholder: 'e.g., Fully present, unhurried, unashamed. Able to ask for what I want without translating it first...'
+    },
+    {
+      id: 'edge_understand',
+      label: 'What do you most want a partner to understand about you before you are intimate?',
+      hint: 'Select all that resonate',
+      type: 'tags',
+      options: ['That vulnerability is sacred to me','That slowness is not hesitation','That I need time to trust before I open fully','That I may freeze instead of speaking when overwhelmed','That my desire is real even when I struggle to express it','That aftercare is not optional for me','That my body communicates in subtle ways','That consistency builds safety for me','That I am still discovering myself','That what I want may change in the moment']
+    },
+    {
+      id: 'edge_understand_notes',
+      label: 'Anything else you want a partner to know, in your own words (optional)',
+      type: 'textarea',
+      placeholder: 'Add anything in your own words...'
+    },
+  ]
+},
+
+{ id: 'profile', type: 'profile' }
+
+];
+
+// STATE
+let currentSection = 0;
+let answers = {};
+
+// URL SHARING
+function encodeData(obj) {
+  return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
+}
+function decodeData(str) {
+  return JSON.parse(decodeURIComponent(escape(atob(str))));
+}
+
+// HELPERS
+function findQuestion(id) {
+  for (const s of SECTIONS) {
+    if (!s.questions) continue;
+    const q = s.questions.find(q => q.id === id);
+    if (q) return q;
+  }
+  return null;
+}
+
+function sliderLabel(q, value) {
+  const n = q.steps.length;
+  const idx = Math.max(0, Math.min(Math.round((value / 100) * (n - 1)), n - 1));
+  return q.steps[idx];
+}
+
+function sliderLabelById(id) {
+  const q = findQuestion(id);
+  const el = document.getElementById(id);
+  return (q && el) ? sliderLabel(q, parseInt(el.value)) : '';
+}
+
+function sliderPct(value) {
+  return Math.round((value / 100) * 100);
+}
+
+// PROFILE TEXT GENERATION (for Copy Plain Text)
+function generateProfileText() {
+  const name = answers['name'] || '';
+  const poss = name ? `${name}'s` : 'My';
+  const lines = [];
+  const w = 46;
+
+  lines.push(`‚ïî${'‚ïê'.repeat(w)}‚ïó`);
+  lines.push(`‚ïë  ${(poss.toUpperCase() + ' INTIMACY PROFILE').padEnd(w - 2)}‚ïë`);
+  lines.push(`‚ïö${'‚ïê'.repeat(w)}‚ïù`);
+  lines.push('');
+  lines.push('This is a personal map of how I connect, what I need,');
+  lines.push('and what opens me. Offered as a gift of clarity.');
+  lines.push('');
+
+  function sect(emoji, heading, parts) {
+    if (!parts.length) return;
+    lines.push(`${emoji}  ${heading}`);
+    lines.push('-'.repeat(40));
+    parts.forEach(p => { if (p) { lines.push(p); lines.push(''); } });
+  }
+
+  function tags(arr) { return arr?.length ? arr.map(t => `  ¬∑ ${t}`).join('\n') : null; }
+  function sv(id) {
+    if (answers[id] === undefined) return null;
+    const q = findQuestion(id);
+    return q ? sliderLabel(q, answers[id]) : null;
+  }
+  function tv(id) { return answers[id] || null; }
+
+  // IDENTITY
+  const id = [];
+  const gT = answers['id_gender']; const gO = tv('id_gender_own');
+  if (gT?.length || gO) {
+    let g = 'Identity: ';
+    if (gT?.length) g += gT.join(', ');
+    if (gO) g += (gT?.length ? ` (${gO})` : gO);
+    id.push(g);
+  }
+  if (answers['id_pronouns']?.length)    id.push('Pronouns: ' + answers['id_pronouns'].join(', '));
+  if (answers['id_anatomy']?.length)     id.push('Anatomy: ' + answers['id_anatomy'].join(', '));
+  if (answers['id_neurodiv']?.length)    id.push('Neurodivergent: ' + answers['id_neurodiv'].join(', '));
+  if (answers['id_orientation']?.length) id.push('Orientation: ' + answers['id_orientation'].join(', '));
+  if (answers['id_relationship']?.length) id.push('Relationship structure: ' + answers['id_relationship'].join(', '));
+  if (tv('id_body')) id.push('About my body:\n' + tv('id_body'));
+  sect('‚úø', 'IDENTITY & CONTEXT', id);
+
+  // TOUCH
+  const t = [];
+  if (answers['touch_approach']?.length)    t.push('How I like to be approached:\n' + tags(answers['touch_approach']));
+  if (sv('touch_type'))                     t.push('Touch style: ' + sv('touch_type'));
+  if (sv('touch_pressure'))                 t.push('Pressure: ' + sv('touch_pressure'));
+  if (answers['touch_welcome']?.length)     t.push('Where my body welcomes touch:\n' + tags(answers['touch_welcome']));
+  if (answers['touch_care']?.length)        t.push('Areas to approach with care:\n' + tags(answers['touch_care']));
+  if (tv('touch_care_notes'))               t.push(tv('touch_care_notes'));
+  if (answers['touch_ticklish']?.length)    t.push('Ticklish or reactive areas:\n' + tags(answers['touch_ticklish']));
+  if (answers['touch_present']?.length)     t.push('What brings me into my body:\n' + tags(answers['touch_present']));
+  if (sv('touch_sensation'))                t.push('Sensation spectrum: ' + sv('touch_sensation'));
+  if (answers['touch_impact']?.length)      t.push('Impact and sensation play:\n' + tags(answers['touch_impact']));
+  if (answers['touch_gen_clitoris']?.length) t.push('Clitoral and vulval stimulation:\n' + tags(answers['touch_gen_clitoris']));
+  if (answers['touch_gen_penis']?.length)   t.push('Penile stimulation:\n' + tags(answers['touch_gen_penis']));
+  if (answers['touch_gen_anal']?.length)    t.push('Anal and rectal stimulation:\n' + tags(answers['touch_gen_anal']));
+  if (answers['touch_gen_nipple']?.length)  t.push('Nipple and chest stimulation:\n' + tags(answers['touch_gen_nipple']));
+  sect('‚ù¶', 'TOUCH', t);
+
+  // PSYCHOLOGICAL
+  const ps = [];
+  if (answers['psych_needs']?.length)        ps.push('Safety cues:\n' + tags(answers['psych_needs']));
+  if (answers['psych_attachment']?.length)   ps.push('Attachment style:\n' + tags(answers['psych_attachment']));
+  if (answers['psych_safe']?.length)         ps.push('What helps me feel safe:\n' + tags(answers['psych_safe']));
+  if (tv('psych_safe_notes'))                ps.push(tv('psych_safe_notes'));
+  if (answers['psych_unsafe']?.length)       ps.push('What makes it harder to feel safe:\n' + tags(answers['psych_unsafe']));
+  if (answers['psych_seen']?.length)         ps.push('Words that make me feel seen:\n' + tags(answers['psych_seen']));
+  if (tv('psych_seen_notes'))                ps.push(tv('psych_seen_notes'));
+  if (answers['psych_arousal_words']?.length) ps.push('Words and phrases that activate my arousal:\n' + tags(answers['psych_arousal_words']));
+  if (answers['psych_signal']?.length)       ps.push('How I signal when something is not right:\n' + tags(answers['psych_signal']));
+  sect('‚ùã', 'PSYCHOLOGICAL SAFETY', ps);
+
+  // EMOTIONAL
+  const em = [];
+  if (sv('emo_desire_type'))               em.push('How desire arrives for me: ' + sv('emo_desire_type'));
+  if (answers['emo_state']?.length)        em.push('What allows me to be fully present:\n' + tags(answers['emo_state']));
+  if (answers['emo_emotions']?.length)     em.push('How emotions move through me:\n' + tags(answers['emo_emotions']));
+  if (answers['emo_emotions_want']?.length) em.push('Emotions I would love to move through:\n' + tags(answers['emo_emotions_want']));
+  if (answers['emo_aftercare']?.length)    em.push('Aftercare I need:\n' + tags(answers['emo_aftercare']));
+  if (answers['emo_aftercare_provide']?.length) em.push('Aftercare I like to provide:\n' + tags(answers['emo_aftercare_provide']));
+  if (answers['emo_close']?.length)        em.push('What creates closeness:\n' + tags(answers['emo_close']));
+  if (sv('emo_connection'))                em.push('Emotional-physical link: ' + sv('emo_connection'));
+  sect('‚ô°', 'EMOTIONAL INTIMACY', em);
+
+  // ORGASM
+  const og = [];
+  if (answers['orgasm_types']?.length)          og.push('Types of pleasure I have explored:\n' + tags(answers['orgasm_types']));
+  if (answers['orgasm_explore_partner']?.length) og.push('What I want to explore with a partner:\n' + tags(answers['orgasm_explore_partner']));
+  if (answers['orgasm_concordance']?.length)    og.push('Arousal non-concordance:\n' + tags(answers['orgasm_concordance']));
+  if (answers['orgasm_conditions']?.length)     og.push('What I need mentally to climax:\n' + tags(answers['orgasm_conditions']));
+  if (sv('orgasm_importance'))                  og.push('My orgasm importance: ' + sv('orgasm_importance'));
+  if (sv('orgasm_partner_importance'))          og.push('Partner orgasm importance: ' + sv('orgasm_partner_importance'));
+  if (answers['orgasm_style']?.length)          og.push('My preferred styles:\n' + tags(answers['orgasm_style']));
+  if (answers['orgasm_approach']?.length)       og.push('Approaching climax in my body:\n' + tags(answers['orgasm_approach']));
+  if (tv('orgasm_wish'))                        og.push('What I wish partners understood:\n' + tv('orgasm_wish'));
+  sect('‚ú∫', 'ORGASM & PLEASURE', og);
+
+  // DESIRE
+  const ds = [];
+  if (answers['desire_accelerators']?.length) ds.push('My reliable accelerators:\n' + tags(answers['desire_accelerators']));
+  if (tv('desire_accelerators_other'))         ds.push(tv('desire_accelerators_other'));
+  if (answers['desire_brakes']?.length)        ds.push('Common brakes:\n' + tags(answers['desire_brakes']));
+  if (answers['desire_mind']?.length)          ds.push('What activates my erotic mind:\n' + tags(answers['desire_mind']));
+  if (sv('desire_power'))                      ds.push('Power dynamic: ' + sv('desire_power'));
+  if (answers['desire_sensory']?.length)       ds.push('Sensory elements that ignite me:\n' + tags(answers['desire_sensory']));
+  if (tv('desire_underestimated'))             ds.push('Most underestimated about my desire:\n' + tv('desire_underestimated'));
+  sect('‚úµ', 'DESIRE & THE EROTIC MIND', ds);
+
+  // FORMATIVE
+  const fm = [];
+  if (tv('form_shaped'))                 fm.push('What shaped my sexuality:\n' + tv('form_shaped'));
+  if (tv('form_met'))                    fm.push('When I first felt truly met:\n' + tv('form_met'));
+  if (answers['form_surprise']?.length)  fm.push('What surprised me about myself:\n' + tags(answers['form_surprise']));
+  if (tv('form_surprise_notes'))         fm.push(tv('form_surprise_notes'));
+  if (answers['form_authentic']?.length) fm.push('What feels most authentically me:\n' + tags(answers['form_authentic']));
+  if (tv('form_authentic_notes'))        fm.push(tv('form_authentic_notes'));
+  sect('‚ú∂', 'FORMATIVE EXPERIENCES', fm);
+
+  // EDGES
+  const ed = [];
+  if (answers['edge_curious']?.length)     ed.push('What I am curious to explore:\n' + tags(answers['edge_curious']));
+  if (tv('edge_curious_notes'))            ed.push(tv('edge_curious_notes'));
+  if (answers['edge_safety']?.length)      ed.push('What I need from a partner at my edge:\n' + tags(answers['edge_safety']));
+  if (tv('edge_self'))                     ed.push('My most expansive sexual self:\n' + tv('edge_self'));
+  if (answers['edge_understand']?.length)  ed.push('What I most want you to understand:\n' + tags(answers['edge_understand']));
+  if (tv('edge_understand_notes'))         ed.push(tv('edge_understand_notes'));
+  sect('‚ùÅ', 'CURIOSITIES & EDGES', ed);
+
+  lines.push('='.repeat(w));
+  lines.push('Created with intention. Please receive with care.');
+  return lines.join('\n');
+}
+
+// VISUAL PROFILE GENERATION
+function generateVisualProfile() {
+  const name = answers['name'] || '';
+  const poss = name ? `${name}'s` : 'My';
+
+  // Collect all slider questions
+  const allSliders = [];
+  for (const s of SECTIONS) {
+    if (!s.questions) continue;
+    for (const q of s.questions) {
+      if (q.type === 'slider' && answers[q.id] !== undefined) {
+        allSliders.push({ q, val: answers[q.id] });
+      }
+    }
+  }
+
+  let glanceHtml = '';
+  if (allSliders.length > 0) {
+    const bars = allSliders.map(({ q, val }) => {
+      const pct = Math.round((val / 100) * 100);
+      const label = sliderLabel(q, val);
+      return `<div class="pv-bar-row">
+        <div class="pv-bar-name">${q.label.length > 30 ? q.label.substring(0,28)+'...' : q.label}</div>
+        <div class="pv-bar-track"><div class="pv-bar-fill" style="width:${pct}%"></div></div>
+        <div class="pv-bar-val">${label}</div>
+      </div>`;
+    }).join('');
+    glanceHtml = `<div class="pv-glance">
+      <div class="pv-glance-title">At a Glance</div>
+      ${bars}
+    </div>`;
+  }
+
+  // Section blocks
+  const sectionDefs = [
+    {
+      style: STYLES[1],
+      rows: [
+        { label: 'Gender identity', val: answers['id_gender'], type: 'tags' },
+        { label: 'Own language', val: answers['id_gender_own'], type: 'text' },
+        { label: 'Pronouns', val: answers['id_pronouns'], type: 'tags' },
+        { label: 'Anatomy', val: answers['id_anatomy'], type: 'tags' },
+        { label: 'Neurodivergent', val: answers['id_neurodiv'], type: 'tags' },
+        { label: 'Orientation', val: answers['id_orientation'], type: 'tags' },
+        { label: 'Relationship structure', val: answers['id_relationship'], type: 'tags' },
+        { label: 'About my body', val: answers['id_body'], type: 'text' },
+      ]
+    },
+    {
+      style: STYLES[2],
+      rows: [
+        { label: 'How I like to be approached', val: answers['touch_approach'], type: 'tags' },
+        { label: 'Touch style', qid: 'touch_type', type: 'slider' },
+        { label: 'Pressure', qid: 'touch_pressure', type: 'slider' },
+        { label: 'Where my body welcomes touch', val: answers['touch_welcome'], type: 'tags' },
+        { label: 'Areas to approach with care', val: answers['touch_care'], type: 'tags' },
+        { label: 'Care notes', val: answers['touch_care_notes'], type: 'text' },
+        { label: 'Ticklish or reactive areas', val: answers['touch_ticklish'], type: 'tags' },
+        { label: 'What brings me into my body', val: answers['touch_present'], type: 'tags' },
+        { label: 'Sensation spectrum', qid: 'touch_sensation', type: 'slider' },
+        { label: 'Impact and sensation play', val: answers['touch_impact'], type: 'tags' },
+        { label: 'Clitoral and vulval stimulation', val: answers['touch_gen_clitoris'], type: 'tags' },
+        { label: 'Penile stimulation', val: answers['touch_gen_penis'], type: 'tags' },
+        { label: 'Anal and rectal stimulation', val: answers['touch_gen_anal'], type: 'tags' },
+        { label: 'Nipple and chest stimulation', val: answers['touch_gen_nipple'], type: 'tags' },
+      ]
+    },
+    {
+      style: STYLES[3],
+      rows: [
+        { label: 'Safety cues', val: answers['psych_needs'], type: 'tags' },
+        { label: 'Attachment style', val: answers['psych_attachment'], type: 'tags' },
+        { label: 'What helps me feel safe', val: answers['psych_safe'], type: 'tags' },
+        { label: 'Safety notes', val: answers['psych_safe_notes'], type: 'text' },
+        { label: 'What makes it harder to feel safe', val: answers['psych_unsafe'], type: 'tags' },
+        { label: 'Words that make me feel seen', val: answers['psych_seen'], type: 'tags' },
+        { label: 'My own phrases', val: answers['psych_seen_notes'], type: 'text' },
+        { label: 'Words that activate my arousal', val: answers['psych_arousal_words'], type: 'tags' },
+        { label: 'How I signal when something is not right', val: answers['psych_signal'], type: 'tags' },
+      ]
+    },
+    {
+      style: STYLES[4],
+      rows: [
+        { label: 'How desire arrives for me', qid: 'emo_desire_type', type: 'slider' },
+        { label: 'What allows me to be fully present', val: answers['emo_state'], type: 'tags' },
+        { label: 'How emotions move through me', val: answers['emo_emotions'], type: 'tags' },
+        { label: 'Emotions I want to move through', val: answers['emo_emotions_want'], type: 'tags' },
+        { label: 'Aftercare I need', val: answers['emo_aftercare'], type: 'tags' },
+        { label: 'Aftercare I like to provide', val: answers['emo_aftercare_provide'], type: 'tags' },
+        { label: 'What creates closeness', val: answers['emo_close'], type: 'tags' },
+        { label: 'Emotional-physical link', qid: 'emo_connection', type: 'slider' },
+      ]
+    },
+    {
+      style: STYLES[5],
+      rows: [
+        { label: 'Types of pleasure explored', val: answers['orgasm_types'], type: 'tags' },
+        { label: 'Wanting to explore with a partner', val: answers['orgasm_explore_partner'], type: 'tags' },
+        { label: 'Arousal non-concordance', val: answers['orgasm_concordance'], type: 'tags' },
+        { label: 'What I need mentally to climax', val: answers['orgasm_conditions'], type: 'tags' },
+        { label: 'My orgasm importance', qid: 'orgasm_importance', type: 'slider' },
+        { label: 'Partner orgasm importance', qid: 'orgasm_partner_importance', type: 'slider' },
+        { label: 'Preferred styles of release', val: answers['orgasm_style'], type: 'tags' },
+        { label: 'Approaching climax in my body', val: answers['orgasm_approach'], type: 'tags' },
+        { label: 'What I wish partners understood', val: answers['orgasm_wish'], type: 'text' },
+      ]
+    },
+    {
+      style: STYLES[6],
+      rows: [
+        { label: 'My reliable accelerators', val: answers['desire_accelerators'], type: 'tags' },
+        { label: 'Other accelerators', val: answers['desire_accelerators_other'], type: 'text' },
+        { label: 'Common brakes', val: answers['desire_brakes'], type: 'tags' },
+        { label: 'What activates my erotic mind', val: answers['desire_mind'], type: 'tags' },
+        { label: 'Power dynamic', qid: 'desire_power', type: 'slider' },
+        { label: 'Sensory elements that ignite me', val: answers['desire_sensory'], type: 'tags' },
+        { label: 'Most underestimated about my desire', val: answers['desire_underestimated'], type: 'text' },
+      ]
+    },
+    {
+      style: STYLES[7],
+      rows: [
+        { label: 'What shaped my sexuality', val: answers['form_shaped'], type: 'text' },
+        { label: 'When I first felt truly met', val: answers['form_met'], type: 'text' },
+        { label: 'What surprised me about myself', val: answers['form_surprise'], type: 'tags' },
+        { label: 'More surprises', val: answers['form_surprise_notes'], type: 'text' },
+        { label: 'What feels most authentically me', val: answers['form_authentic'], type: 'tags' },
+        { label: 'More about me', val: answers['form_authentic_notes'], type: 'text' },
+      ]
+    },
+    {
+      style: STYLES[8],
+      rows: [
+        { label: 'Curious to explore', val: answers['edge_curious'], type: 'tags' },
+        { label: 'Other curiosities', val: answers['edge_curious_notes'], type: 'text' },
+        { label: 'What I need from a partner at my edge', val: answers['edge_safety'], type: 'tags' },
+        { label: 'My most expansive sexual self', val: answers['edge_self'], type: 'text' },
+        { label: 'What I most want you to understand', val: answers['edge_understand'], type: 'tags' },
+        { label: 'In my own words', val: answers['edge_understand_notes'], type: 'text' },
+      ]
+    },
+  ];
+
+  const sectionsHtml = sectionDefs.map(({ style, rows }) => {
+    const rowsHtml = rows.map(row => {
+      if (row.type === 'slider') {
+        if (answers[row.qid] === undefined) return '';
+        const q = findQuestion(row.qid);
+        const val = answers[row.qid];
+        const pct = Math.round((val / 100) * 100);
+        const label = sliderLabel(q, val);
+        return `<div class="pv-row">
+          <div class="pv-row-label">${row.label}</div>
+          <div class="pv-bar-row" style="margin-bottom:0">
+            <div class="pv-bar-track" style="flex:1"><div class="pv-bar-fill" style="width:${pct}%"></div></div>
+            <div class="pv-bar-val" style="min-width:auto;margin-left:0.6rem">${label}</div>
+          </div>
+        </div>`;
+      } else if (row.type === 'tags') {
+        if (!row.val || !row.val.length) return '';
+        const chips = row.val.map(v => `<span class="pv-chip">${v}</span>`).join('');
+        return `<div class="pv-row">
+          <div class="pv-row-label">${row.label}</div>
+          <div class="pv-chips">${chips}</div>
+        </div>`;
+      } else if (row.type === 'text') {
+        if (!row.val) return '';
+        return `<div class="pv-row">
+          <div class="pv-row-label">${row.label}</div>
+          <div class="pv-text-val">${row.val.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+        </div>`;
+      }
+      return '';
+    }).join('');
+
+    if (!rowsHtml.trim()) return '';
+
+    return `<div class="pv-section-block">
+      <div class="pv-section-head">
+        <span class="pv-section-sym sym">${style.emoji}</span>
+        <span class="pv-section-name">${style.name}</span>
+      </div>
+      <div class="pv-rainbow-divider"></div>
+      ${rowsHtml}
+    </div>`;
+  }).join('');
+
+  return `<div class="pv-wrap" id="pv-content">
+    <div class="pv-header">
+      <div class="pv-header-title">${poss} Intimacy Profile ‚ú¶</div>
+      <div class="pv-header-sub">A personal map of how I connect, what I need, and what opens me.</div>
+    </div>
+    ${glanceHtml}
+    ${sectionsHtml}
+    <div class="pv-footer">Created with intention. Please receive with care.</div>
+  </div>`;
+}
+
+// RENDER
+function render() {
+  const app = document.getElementById('app');
+  const s = SECTIONS[currentSection];
+
+  if (s.type === 'intro') {
+    app.innerHTML = renderIntro();
+  } else if (s.type === 'profile') {
+    app.innerHTML = renderProfile();
+    document.getElementById('btn-img').addEventListener('click', downloadAsImage);
+    document.getElementById('btn-pdf').addEventListener('click', () => window.print());
+    document.getElementById('btn-copy-text').addEventListener('click', copyPlainText);
+    document.getElementById('btn-share').addEventListener('click', shareAsLink);
+    document.getElementById('btn-restart').addEventListener('click', () => { currentSection = 0; answers = {}; history.pushState('', document.title, window.location.pathname + window.location.search); render(); });
+  } else {
+    app.innerHTML = renderSection(s);
+    restoreAnswers(s);
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderIntro() {
+  const val = answers['name'] || '';
+  return `
+    <div class="section-card intro">
+      <div class="deco sym">‚úø ‚ù¶ ‚ùã ‚ô° ‚ú∫ ‚úµ ‚ú∂ ‚ùÅ</div>
+      <div class="intro-logo rf">Intimacy<br>Profile<span class="star-mark">‚ú¶</span></div>
+      <div class="deco sym">‚ùÅ ‚ú∂ ‚úµ ‚ú∫ ‚ô° ‚ùã ‚ù¶ ‚úø</div>
+
+      <div class="intro-card">
+        <p class="intro-body">
+          This is a space for honest, brave, joyful self-reflection. All in the name of good fun.<br><br>
+          These questions, grounded in research on touch, psychology, neuroscience, and sexuality,
+          help you articulate how you like to be touched, what safety means to you,
+          what ignites your desire, and what you are still discovering about yourself.
+          A way to reveal your likes to your partner. Perhaps even reveal some to yourself, too.<br><br>
+          The profile you create can be shared with partners as an act of communication and care.
+          <strong>A gift of connection and clarity.</strong><br><br>
+          All in the name of good, clean, dirty fun.
+        </p>
+      </div>
+
+      <div class="intro-card">
+        <span class="name-label">Your name or chosen name (optional)</span>
+        <input class="name-input" id="name-input" type="text"
+          placeholder="How would you like to be known?"
+          value="${val.replace(/"/g,'&quot;')}">
+      </div>
+
+      <div style="margin-top: 1.2rem;">
+        <button class="btn btn-primary" style="font-size: 0.95rem; padding: 0.8rem 2.5rem;"
+          onclick="answers['name'] = document.getElementById('name-input').value; currentSection = 1; render();">
+          Let's Begin ‚Üí
+        </button>
+      </div>
+      <p class="privacy-note">All answers remain on your device only. Nothing is sent anywhere.</p>
+    </div>
+  `;
+}
+
+function goBack()  { saveAnswers(SECTIONS[currentSection]); currentSection--; render(); }
+function goNext()  { saveAnswers(SECTIONS[currentSection]); currentSection++; render(); }
+
+function renderSection(section) {
+  const contentSections = SECTIONS.filter(s => !s.type);
+  const idx    = contentSections.indexOf(section) + 1;
+  const total  = contentSections.length;
+  const pct    = Math.round((idx / total) * 100);
+  const style  = STYLES[currentSection];
+  const isLast = currentSection === SECTIONS.length - 2;
+  const nextName = isLast ? 'Generate My Profile' : (STYLES[currentSection + 1]?.name || '');
+
+  return `
+    <div class="section-card">
+
+      ${currentSection > 1 ? `
+        <div style="margin-bottom: 1.4rem;">
+          <button class="btn btn-primary" onclick="goBack()">‚Üê Back</button>
+        </div>
+      ` : '<div style="margin-bottom: 1.4rem;"></div>'}
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>${style?.emoji || ''} Section ${idx} of ${total}</span>
+          <span>${pct}% complete</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: ${pct}%"></div>
+        </div>
+      </div>
+
+      ${section.rainbow ? '<div class="rainbow-stripe"></div>' : ''}
+
+      <div class="section-header">
+        <div class="section-chip"><span class="chip-sym">${style?.emoji || ''}</span> ${idx} / ${total}</div>
+        <span class="section-sym">${style?.emoji || ''}</span>
+        <h1 class="section-title rf">${style?.name || ''}</h1>
+        <p class="section-subtitle">${section.subtitle}</p>
+      </div>
+
+      ${section.questions.map(renderQuestion).join('')}
+
+      <div class="nav" style="flex-direction: column; align-items: flex-end; gap: 0.4rem;">
+        <div style="font-family: var(--sans); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: #bbb;">
+          ${isLast ? '' : `Next: ${nextName}`}
+        </div>
+        <button class="btn btn-primary" onclick="goNext()">
+          ${isLast ? 'Generate My Profile ‚ú¶' : 'Continue ‚Üí'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function renderQuestion(q) {
+  if (q.condition && !q.condition(answers)) return '';
+
+  let input = '';
+
+  if (q.type === 'textarea') {
+    input = `<textarea id="${q.id}" placeholder="${(q.placeholder || '').replace(/"/g,'&quot;')}" rows="3"></textarea>`;
+  } else if (q.type === 'tags') {
+    const tagHTML = q.options.map(opt =>
+      `<span class="tag" data-qid="${q.id}" data-val="${opt.replace(/"/g,'&quot;')}" onclick="toggleTag(this)">${opt}</span>`
+    ).join('');
+    input = `<div class="tags">${tagHTML}</div>`;
+  } else if (q.type === 'slider') {
+    input = `
+      <div class="slider-wrap">
+        <div class="slider-labels"><span>${q.min}</span><span>${q.max}</span></div>
+        <input type="range" id="${q.id}" min="0" max="100" value="50"
+          oninput="document.getElementById('${q.id}-val').textContent = sliderLabelById('${q.id}')">
+        <div class="slider-value-wrap">
+          <span class="slider-value" id="${q.id}-val">${q.steps[2]}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="question">
+      <div class="question-label">${q.label}</div>
+      ${q.science ? `<div class="science-note">${q.science}</div>` : ''}
+      ${q.hint    ? `<div class="question-hint">${q.hint}</div>`   : ''}
+      ${input}
+    </div>
+  `;
+}
+
+function renderProfile() {
+  const name = answers['name'] ? `${answers['name']}'s` : 'Your';
+  const visualProfile = generateVisualProfile();
+  return `
+    <div class="section-card">
+      <div class="completion-banner">
+        <div class="completion-title rf">Complete<span class="star-mark">‚ú¶</span></div>
+        <p class="completion-sub">${name} intimacy profile is ready to share</p>
+        <div class="rainbow-divider" style="margin: 1rem 0 0;"></div>
+      </div>
+
+      ${visualProfile}
+
+      <div class="profile-actions">
+        <button class="btn btn-primary" id="btn-img">Download Image</button>
+        <button class="btn btn-primary" id="btn-pdf">Download PDF</button>
+        <button class="btn" id="btn-copy-text">Copy Plain Text</button>
+        <button class="btn" id="btn-share">Share as Link</button>
+        <button class="btn" id="btn-restart">Start Over</button>
+      </div>
+    </div>
+  `;
+}
+
+// ANSWER MANAGEMENT
+function saveAnswers(section) {
+  section.questions.forEach(q => {
+    if (q.type === 'textarea') {
+      const el = document.getElementById(q.id);
+      if (el) answers[q.id] = el.value;
+    } else if (q.type === 'slider') {
+      const el = document.getElementById(q.id);
+      if (el) answers[q.id] = parseInt(el.value);
+    }
+  });
+}
+
+function restoreAnswers(section) {
+  section.questions.forEach(q => {
+    if (q.condition && !q.condition(answers)) return;
+    if (q.type === 'textarea') {
+      const el = document.getElementById(q.id);
+      if (el && answers[q.id] !== undefined) el.value = answers[q.id];
+    } else if (q.type === 'slider') {
+      const el = document.getElementById(q.id);
+      if (el && answers[q.id] !== undefined) {
+        el.value = answers[q.id];
+        const valEl = document.getElementById(`${q.id}-val`);
+        if (valEl) valEl.textContent = sliderLabelById(q.id);
+      }
+    } else if (q.type === 'tags') {
+      const saved = answers[q.id] || [];
+      document.querySelectorAll(`.tag[data-qid="${q.id}"]`).forEach(tag => {
+        if (saved.includes(tag.dataset.val)) tag.classList.add('active');
+      });
+    }
+  });
+}
+
+function toggleTag(el) {
+  el.classList.toggle('active');
+  const qid = el.dataset.qid;
+  const val = el.dataset.val;
+  if (!answers[qid]) answers[qid] = [];
+  const idx = answers[qid].indexOf(val);
+  if (idx === -1) answers[qid].push(val);
+  else answers[qid].splice(idx, 1);
+}
+
+// SHARE ACTIONS
+function copyPlainText() {
+  const text = generateProfileText();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('btn-copy-text');
+    const orig = btn.textContent;
+    btn.textContent = '‚úì Copied!';
+    setTimeout(() => btn.textContent = orig, 2200);
+  });
+}
+
+function shareAsLink() {
+  const encoded = encodeData(answers);
+  const url = window.location.href.split('#')[0] + '#profile=' + encoded;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('btn-share');
+    const orig = btn.textContent;
+    btn.textContent = '‚úì Link Copied!';
+    setTimeout(() => btn.textContent = orig, 2200);
+  });
+}
+
+function downloadAsImage() {
+  const el = document.getElementById('pv-content');
+  const btn = document.getElementById('btn-img');
+  btn.textContent = 'Generating...';
+  html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+    const name = (answers['name'] || 'my').toLowerCase().replace(/\s+/g,'_');
+    const link = document.createElement('a');
+    link.download = name + '_intimacy_profile.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    btn.textContent = 'Download Image';
+  });
+}
+
+// INIT
+if (location.hash && location.hash.startsWith('#profile=')) {
+  try {
+    answers = decodeData(location.hash.slice(9));
+    currentSection = SECTIONS.length - 1;
+  } catch(e) {
+    console.warn('Could not decode profile from URL', e);
+  }
+}
+
+// TEMP PREVIEW ‚Äî DISABLED
+const _demo = {
+  name: 'Alex',
+  id_gender: ['Non-binary','Genderqueer'],
+  id_pronouns: ['they/them','she/her'],
+  id_orientation: ['Queer','Bisexual'],
+  id_relationship: ['Ethically non-monogamous (ENM)','Polyamorous'],
+  id_anatomy: ['Vulva and clitoris','Uterus and cervix'],
+  id_neurodiv: ['ADHD'],
+  id_body: 'I have hypermobility so some positions need care. I experience occasional pelvic pain.',
+  touch_approach: ['Slowly and deliberately','Face-to-face with eye contact','After a long buildup'],
+  touch_type: 30,
+  touch_pressure: 55,
+  touch_welcome: ['Scalp and hair','Neck and throat','Back','Inner thighs','Lower back and sacrum'],
+  touch_care: ['Stomach and abdomen','During menstruation or hormonal shifts'],
+  touch_care_notes: 'My lower back needs warmth before pressure.',
+  touch_ticklish: ['Ribs and sides','Inner thighs','Behind the knees'],
+  touch_present: ['Slow, sustained pressure','Skin traced very slowly','Words spoken quietly while touching','Full-body contact, skin to skin'],
+  touch_sensation: 45,
+  touch_impact: ['Scratching: receiving','Biting: receiving','Hair pulling: receiving'],
+  touch_gen_clitoris: ['Indirect touch through the hood','Firm and sustained pressure','Slow build only, no rushing'],
+  touch_gen_anal: ['Not for me'],
+  touch_gen_nipple: ['Very sensitive, gentle only','Pleasurable as part of whole-body touch'],
+  psych_needs: ['Time and patience','Eye contact','Complete presence from my partner','Being asked, not assumed','Words of praise'],
+  psych_attachment: ['Anxious: I tend to need reassurance and fear distance'],
+  psych_safe: ['Consistency over time','A constructive spirit around what I reveal','No performance expected of me','Genuine curiosity about who I am'],
+  psych_safe_notes: 'When someone remembers the small things I have shared.',
+  psych_unsafe: ['Being rushed','Absence of curiosity or genuine interest','Feeling judged or assessed','Sudden or unexplained shifts in energy'],
+  psych_seen: ['I am not going anywhere','Take your time','I am listening','There is nowhere I would rather be'],
+  psych_seen_notes: '"You are allowed to take up space."',
+  psych_signal: ['I go quiet and need someone to check in','I freeze and need gentle checking in'],
+  psych_arousal_words: ['"Good one"','Soft whispered words','Praise and admiration','Just like that','More'],
+  emo_desire_type: 20,
+  emo_state: ['Feeling like there is nowhere to be','After an honest conversation','Well rested','Emotionally settled'],
+  emo_emotions: ['I go quiet and reflective','I feel closer than any other time','I feel more fully in my skin','I feel peaceful and safe'],
+  emo_emotions_want: ['Deep surrender and release','Tenderness and gentleness','Profound physical pleasure','Being utterly present'],
+  emo_aftercare: ['Being held in silence','Words of affirmation','A warm blanket','Being checked in on later'],
+  emo_aftercare_provide: ['Holding in silence','Fetching water and food','Staying close while they sleep'],
+  emo_close: ['Shared vulnerability','Small acts of real attention','Being known without explanation','Accepting parts I usually hide'],
+  emo_connection: 85,
+  orgasm_types: ['Clitoral / external genital','Internal / deep (G-spot / anterior wall)','Full-body / energetic'],
+  orgasm_explore_partner: ['Mutual orgasm at the same time','Extended edging together','Tantric or breath-based'],
+  orgasm_concordance: ['Sometimes, depending on stress or context'],
+  orgasm_conditions: ['Feeling completely unjudged','Trust in my partner','Freedom to take as long as I need','No pressure to perform or finish'],
+  orgasm_importance: 60,
+  orgasm_partner_importance: 80,
+  orgasm_style: ['Long, slow builds','Sustained arousal without climax'],
+  orgasm_approach: ['My breath deepens and changes','I go very still','I need sustained rhythm without change','It builds in waves'],
+  orgasm_wish: 'It takes longer than most people expect. Stopping or changing rhythm at the wrong moment resets everything.',
+  desire_accelerators: ['Being truly seen and attended to','Slow build over time','Eye contact that holds','Connection and warmth beforehand','Tension and anticipation','Being in nature or open air'],
+  desire_accelerators_other: 'Good conversation that goes somewhere unexpected.',
+  desire_brakes: ['Stress or mental noise','Performance pressure','Feeling unheard or disconnected recently','Feeling rushed or on a schedule'],
+  desire_mind: ['Tenderness and vulnerability','Words, voice and language','Slowness and patience','Being truly known','Seeking to truly know my partner'],
+  desire_power: 25,
+  desire_sensory: ['Sound and voice','Scent and pheromones','Rhythm and movement','Air and wind on the skin','Water: immersion, rain, or the shower'],
+  desire_underestimated: 'How much I need to feel emotionally settled before I can feel physically open. The two are not separate for me.',
+  form_shaped: 'The first relationship where I felt like I did not have to translate myself before being understood.',
+  form_met: 'A moment of complete stillness where nothing needed to be performed or explained.',
+  form_surprise: ['That I needed more tenderness than I admitted','How much emotional connection matters to my arousal','That emotional safety is a prerequisite for me'],
+  form_authentic: ['My need for deep presence','My tenderness','My capacity for vulnerability','My curiosity and openness'],
+  edge_curious: ['Extended sensation play','Tantric breathwork or practices','Orgasm control: receiving','Body worship: receiving','Dominant dynamics (I lead)'],
+  edge_curious_notes: 'Extended breathwork in a context of complete trust.',
+  edge_safety: ['Explicit conversation before we begin','Willingness to stop without question','A commitment to aftercare','Real trust built over time, not rushed'],
+  edge_self: 'Fully present. Unhurried. Completely unashamed. Able to ask for exactly what I want without translating it first.',
+  edge_understand: ['That vulnerability is sacred to me','That slowness is not hesitation','That I may freeze instead of speaking when overwhelmed','That aftercare is not optional for me','That I am still discovering myself'],
+};
+// END TEMP PREVIEW
+
+render();
+</script>
+</body>
+</html>
