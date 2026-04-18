@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personal Intimacy Profile</title>
-<meta property="og:title" content="Personal Intimacy Profile">
+<title>Global Personal Intimacy Calculator</title>
+<meta property="og:title" content="Global Personal Intimacy Calculator">
 <meta property="og:description" content="A thoughtful questionnaire to help you understand and share your intimacy preferences, needs, and desires with a partner.">
 <meta property="og:image" content="https://intimacy-profile.vercel.app/og-image.png">
 <meta property="og:url" content="https://intimacy-profile.vercel.app">
@@ -379,7 +379,7 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
 .intro-logo {
   font-family: var(--display);
   font-weight: 700;
-  font-size: 5rem;
+  font-size: 3.8rem;
   line-height: 1;
   letter-spacing: -0.02em;
   margin-bottom: 0.2rem;
@@ -519,6 +519,17 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
   margin-top: 0.4rem;
 }
 
+.pv-summary {
+  padding: 1.4rem 1.8rem;
+  border-bottom: var(--border);
+  font-family: var(--sans);
+  font-size: 0.94rem;
+  font-style: italic;
+  color: #444;
+  line-height: 1.75;
+  background: var(--off);
+}
+
 .pv-glance {
   padding: 1.4rem 1.6rem 1rem;
   border-bottom: var(--border);
@@ -550,20 +561,24 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
 
 .pv-bar-row {
   display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.pv-bar-row-track {
+  display: flex;
   align-items: center;
   gap: 0.7rem;
-  margin-bottom: 0.7rem;
 }
 
 .pv-bar-name {
   font-family: var(--sans);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--black);
-  min-width: 130px;
-  flex-shrink: 0;
 }
 
 .pv-bar-track {
@@ -705,7 +720,7 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
 
 /* MOBILE */
 @media (max-width: 480px) {
-  .intro-logo    { font-size: 3.6rem; }
+  .intro-logo    { font-size: 2.8rem; }
   .section-title { font-size: 2.6rem; }
   .pv-bar-name   { min-width: 90px; font-size: 0.62rem; }
   .pv-bar-val    { min-width: 70px; font-size: 0.62rem; }
@@ -1465,6 +1480,82 @@ function generateProfileText() {
   return lines.join('\n');
 }
 
+// PROFILE SUMMARY GENERATOR
+function generateProfileSummary(ans) {
+  const pick = (...opts) => opts[Math.floor(Math.random() * opts.length)];
+
+  const name = ans['name'] || 'This person';
+  const poss = ans['name'] ? `${ans['name']}'s` : 'Their';
+
+  // Touch style
+  const touchType = ans['touch_type'];
+  const touchPhrase = touchType === undefined ? null :
+    touchType < 35 ? pick('drawn to soft, feather-light contact', 'most alive under the gentlest of touches', 'awakened by delicacy over force') :
+    touchType > 65 ? pick('lit up by firm, intentional pressure', 'energised by deep and deliberate touch', 'responsive to weight and presence') :
+    pick('at home in the full spectrum of touch', 'equally drawn to gentleness and grounded pressure', 'alive to touch across the whole range');
+
+  // Desire type
+  const desireType = ans['emo_desire_type'];
+  const desirePhrase = desireType === undefined ? null :
+    desireType < 35 ? pick('desire that arrives spontaneously and quickly', 'arousal that needs little invitation', 'a flame that catches fast') :
+    desireType > 65 ? pick('desire that deepens slowly with context and connection', 'arousal that builds when the conditions are right', 'a warmth that grows with time and trust') :
+    pick('desire that moves between spontaneous spark and slow-burning build', 'arousal that arrives in its own time', 'a flexible desire that responds to mood and moment');
+
+  // Emotional-physical link
+  const connVal = ans['emo_connection'];
+  const connPhrase = connVal === undefined ? null :
+    connVal < 35 ? pick('able to be physically present without needing deep emotional context', 'comfortable with physicality independent of emotional intimacy', 'at ease separating the physical from the emotional') :
+    connVal > 65 ? pick('most open physically when emotionally connected', 'body and heart that move together', 'someone for whom emotional safety unlocks physical depth') :
+    pick('someone who holds both the emotional and physical in balance', 'at home wherever the emotional-physical dial lands');
+
+  // Power dynamic
+  const powerVal = ans['desire_power'];
+  const powerPhrase = powerVal === undefined ? null :
+    powerVal < 35 ? pick('a natural draw toward receptive and surrendering energy', 'most themselves when held in a yielding dynamic', 'someone who finds freedom in being led') :
+    powerVal > 65 ? pick('a strong pull toward directing and holding space for a partner', 'most themselves when leading and shaping the dynamic', 'someone energised by guiding what unfolds') :
+    pick('an ease with fluid power dynamics', 'someone who moves comfortably between leading and yielding', 'a person without fixed position in the power dynamic');
+
+  // Psychological needs
+  const needs = ans['psych_needs'] || [];
+  const needsPhrase = needs.length === 0 ? null :
+    needs.includes('Eye contact') && needs.includes('Words of praise') ? pick('nourished by eye contact and words of affirmation', 'seen through gaze and language') :
+    needs.includes('Humor to balance intensity') ? pick('someone who uses humour to hold intensity lightly', 'a person who lets laughter coexist with depth') :
+    needs.includes('Physical warmth') ? pick('grounded by physical warmth and presence', 'steadied by closeness and warmth') :
+    pick('someone with clear and specific psychological needs in intimacy', 'a person who knows what helps them feel safe and open');
+
+  // Build the paragraph from available phrases
+  const parts = [touchPhrase, desirePhrase, connPhrase, powerPhrase, needsPhrase].filter(Boolean);
+  if (parts.length === 0) return '';
+
+  const openers = [
+    `${name} is `,
+    `${name} shows up in intimacy as `,
+    `At their core, ${name} is `,
+    `In the landscape of intimacy, ${name} is `,
+  ];
+
+  const connectors = [
+    ' &#8212; with ', ' and, notably, ', ', alongside ', ' &#8212; and crucially, ',
+  ];
+
+  let summary = pick(...openers) + parts[0];
+  for (let i = 1; i < parts.length; i++) {
+    summary += pick(...connectors) + parts[i];
+  }
+  summary += '.';
+
+  // Add a closing line
+  const closers = [
+    ` ${poss} profile is an invitation to show up with curiosity, patience, and care.`,
+    ` ${poss} map is offered as a gift &#8212; read it slowly.`,
+    ` What follows is ${ans['name'] ? `${ans['name']}'s` : 'their'} honest attempt at self-knowledge.`,
+    ` This profile is a living document of who they are right now.`,
+  ];
+  summary += pick(...closers);
+
+  return summary;
+}
+
 // VISUAL PROFILE GENERATION
 function generateVisualProfile() {
   const name = answers['name'] || '';
@@ -1487,9 +1578,11 @@ function generateVisualProfile() {
       const pct = Math.round((val / 100) * 100);
       const label = sliderLabel(q, val);
       return `<div class="pv-bar-row">
-        <div class="pv-bar-name">${q.label.length > 30 ? q.label.substring(0,28)+'...' : q.label}</div>
-        <div class="pv-bar-track"><div class="pv-bar-fill" style="width:${pct}%"></div></div>
-        <div class="pv-bar-val">${label}</div>
+        <div class="pv-bar-name">${q.label}</div>
+        <div class="pv-bar-row-track">
+          <div class="pv-bar-track"><div class="pv-bar-fill" style="width:${pct}%"></div></div>
+          <div class="pv-bar-val">${label}</div>
+        </div>
       </div>`;
     }).join('');
     glanceHtml = `<div class="pv-glance">
@@ -1621,8 +1714,10 @@ function generateVisualProfile() {
         return `<div class="pv-row">
           <div class="pv-row-label">${row.label}</div>
           <div class="pv-bar-row" style="margin-bottom:0">
-            <div class="pv-bar-track" style="flex:1"><div class="pv-bar-fill" style="width:${pct}%"></div></div>
-            <div class="pv-bar-val" style="min-width:auto;margin-left:0.6rem">${label}</div>
+            <div class="pv-bar-row-track">
+              <div class="pv-bar-track" style="flex:1"><div class="pv-bar-fill" style="width:${pct}%"></div></div>
+              <div class="pv-bar-val" style="min-width:auto;margin-left:0.6rem">${label}</div>
+            </div>
           </div>
         </div>`;
       } else if (row.type === 'tags') {
@@ -1655,11 +1750,15 @@ function generateVisualProfile() {
     </div>`;
   }).join('');
 
+  const summaryText = generateProfileSummary(answers);
+  const summaryHtml = summaryText ? `<div class="pv-summary">${summaryText}</div>` : '';
+
   return `<div class="pv-wrap" id="pv-content">
     <div class="pv-header">
-      <div class="pv-header-title">${poss} Intimacy Profile &#10022;</div>
+      <div class="pv-header-title">${poss} Global Personal Intimacy Calculator &#10022;</div>
       <div class="pv-header-sub">A personal map of how I connect, what I need, and what opens me.</div>
     </div>
+    ${summaryHtml}
     ${glanceHtml}
     <div class="pv-grid">${sectionsHtml}</div>
     <div class="pv-footer">Created with intention. Please receive with care.</div>
@@ -1692,7 +1791,7 @@ function renderIntro() {
   return `
     <div class="section-card intro">
       <div class="deco sym">&#10047; &#10086; &#10059; &#9825; &#10042; &#10037; &#10038; &#10049;</div>
-      <div class="intro-logo rf">Intimacy<br>Profile<span class="star-mark">&#10022;</span></div>
+      <div class="intro-logo rf">Global Personal<br>Intimacy Calculator<span class="star-mark">&#10022;</span></div>
       <div class="deco sym">&#10049; &#10038; &#10037; &#10042; &#9825; &#10059; &#10086; &#10047;</div>
 
       <div class="intro-card">
@@ -1702,9 +1801,11 @@ function renderIntro() {
           help you articulate how you like to be touched, what safety means to you,
           what ignites your desire, and what you are still discovering about yourself.
           A way to reveal your likes to your partner. Perhaps even reveal some to yourself, too.<br><br>
-          The profile you create can be shared with partners as an act of communication and care.
-          <strong>A gift of connection and clarity.</strong><br><br>
-          All in the name of good, clean, dirty fun.
+          Upon completion, the profile you receive can be shared with partners as an act of communication and care.
+          <strong>A gift of kind-hearted connection and clarity.</strong><br><br>
+          And when you're done, why not explore the <a href="#" style="color:inherit;text-decoration:underline;">Global Kink Calculator</a> and share how to level up these acts of touching into scenes and dynamics that propel intimacy, enhance connection and explore deeper stories.<br><br>
+          Of course, all info is private and kept on your device.<br><br>
+          Enjoy, connect, explore. All in the name of good, clean, dirty fun.
         </p>
       </div>
 
