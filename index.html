@@ -193,7 +193,7 @@ body {
 .question-hint {
   font-family: var(--sans);
   font-size: 0.73rem;
-  color: #aaa;
+  color: #767676;
   margin-bottom: 0.75rem;
   font-style: italic;
 }
@@ -201,14 +201,13 @@ body {
 .science-note {
   font-family: var(--sans);
   font-size: 0.7rem;
-  color: #888;
+  color: #555;
   margin-bottom: 0.75rem;
   font-style: italic;
   font-weight: 400;
   border-left: 2.5px solid var(--r1);
   padding-left: 0.6rem;
   line-height: 1.55;
-  opacity: 0.85;
 }
 
 /* TEXTAREA */
@@ -260,6 +259,11 @@ textarea::placeholder { color: #bbb; font-style: italic; }
   box-shadow: 3px 3px 0 var(--black);
 }
 
+.tag:focus-visible {
+  outline: 3px solid var(--r5);
+  outline-offset: 2px;
+}
+
 .tag.active {
   color: var(--black);
   font-weight: 800;
@@ -307,6 +311,16 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+input[type=range]::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--rainbow-diag);
+  border: 2.5px solid var(--black);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--black);
+}
 
 .slider-value-wrap { text-align: center; margin-top: 0.65rem; }
 
@@ -711,6 +725,126 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
   border-top: var(--border);
 }
 
+/* COMPARE MODE */
+.cmp-person-a { --pc: var(--r1); }
+.cmp-person-b { --pc: var(--r5); }
+
+.cmp-legend {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  padding: 0.9rem 1.6rem;
+  border-bottom: var(--border);
+  background: var(--off);
+}
+
+.cmp-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.cmp-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2.5px solid var(--black);
+  flex-shrink: 0;
+}
+
+.cmp-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+@media (max-width: 600px) { .cmp-cols { grid-template-columns: 1fr; } }
+
+.cmp-col {
+  border: 2.5px solid var(--pc, var(--black));
+  border-radius: 12px;
+  padding: 0.9rem;
+}
+
+.cmp-col-name {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cmp-dual-track {
+  position: relative;
+  height: 14px;
+  border: 2px solid var(--black);
+  border-radius: 20px;
+  background: var(--off);
+  margin: 1.5rem 0.8rem 1.6rem;
+}
+
+.cmp-marker {
+  position: absolute;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2.5px solid var(--black);
+  background: var(--pc);
+  transform: translate(-50%, -50%);
+}
+
+.cmp-marker-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.cmp-marker-label.above { bottom: 26px; }
+.cmp-marker-label.below { top: 26px; }
+
+.cmp-pair {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.55rem 0.8rem;
+  border: 2.5px solid var(--black);
+  border-radius: 12px;
+  margin-bottom: 0.55rem;
+  background: var(--white);
+  box-shadow: 2px 2px 0 var(--black);
+}
+
+.cmp-pair-arrow { font-size: 1rem; flex-shrink: 0; }
+
+.cmp-note {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #555;
+  line-height: 1.6;
+  margin-top: 0.4rem;
+}
+
+.cmp-paste-card textarea {
+  min-height: 56px;
+  font-size: 0.78rem;
+}
+
 /* PRINT */
 @media print {
   body { background: white; padding: 0; }
@@ -734,14 +868,14 @@ input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
 // SECTION STYLES
 const STYLES = [
   null,
-  { emoji: '&#10047;', name: 'Identity & Context',    sym: true },
-  { emoji: '&#10086;', name: 'Touch',                 sym: true },
-  { emoji: '&#10059;', name: 'Psychological Safety',  sym: true },
-  { emoji: '&#9825;', name: 'Emotional Intimacy',    sym: true },
-  { emoji: '&#10042;', name: 'Orgasm & Pleasure',     sym: true },
-  { emoji: '&#10037;', name: 'Desire',                sym: true },
-  { emoji: '&#10038;', name: 'Formative Experiences', sym: true },
-  { emoji: '&#10049;', name: 'Edges & Curiosities',   sym: true },
+  { emoji: '✿', name: 'Identity & Context',    sym: true },
+  { emoji: '❦', name: 'Touch',                 sym: true },
+  { emoji: '❋', name: 'Psychological Safety',  sym: true },
+  { emoji: '♡', name: 'Emotional Intimacy',    sym: true },
+  { emoji: '✺', name: 'Orgasm & Pleasure',     sym: true },
+  { emoji: '✵', name: 'Desire',                sym: true },
+  { emoji: '✶', name: 'Formative Experiences', sym: true },
+  { emoji: '❁', name: 'Edges & Curiosities',   sym: true },
   null,
 ];
 
@@ -939,7 +1073,7 @@ const SECTIONS = [
       id: 'psych_needs',
       label: 'Which cues help your nervous system shift into a state of safety?',
       hint: 'Select all that resonate',
-      science: 'Polyvagal theory (Dr Stephen Porges) describes how the autonomic nervous system scans for safety cues. These signals activate our social engagement system, which is the foundation of intimacy.',
+      science: 'A popular framework (Dr Stephen Porges) proposes that the autonomic nervous system scans continuously for safety cues, activating a social engagement system that can underpin intimacy. The specific mechanisms are still debated in neuroscience.',
       type: 'tags',
       options: ['Time and patience','Humor to balance intensity','Eye contact','Silence and stillness','Verbal reassurance','Words of praise','Complete privacy','A ritual or transition moment','Physical warmth','A specific conversation first','Knowing I am not being watched or judged','Complete presence from my partner','Being asked, not assumed','Being genuinely praised or admired']
     },
@@ -1079,14 +1213,14 @@ const SECTIONS = [
       hint: 'Select all that apply. Anatomy varies, so take what fits your body.',
       science: 'Different nerve pathways (pudendal, pelvic, hypogastric, vagus) create distinct experiences of pleasure. The internal clitoral complex extends several centimetres inside the body in people with vulvas. Orgasm is also possible through non-genital stimulation for some people.',
       type: 'tags',
-      options: ['Clitoral / external genital','Internal / deep (G-spot / anterior wall)','Cervical / deep pressure','Squirting or female ejaculation','Anal','Prostate / P-spot','Nipple / chest','Full-body / energetic','Multiple orgasms','Sustained edging / plateau states','Emotional / release orgasm','Tantric or breath-based','Non-genital touch','Still exploring']
+      options: ['Clitoral / external genital','Internal / deep (G-spot / anterior wall)','Cervical / deep pressure','Squirting or ejaculation','Anal','Prostate / P-spot','Nipple / chest','Full-body / energetic','Multiple orgasms','Sustained edging / plateau states','Emotional / release orgasm','Tantric or breath-based','Non-genital touch','Still exploring']
     },
     {
       id: 'orgasm_explore_partner',
       label: 'What types of orgasm or pleasure are you interested in exploring with a partner?',
       hint: 'Select all that feel true',
       type: 'tags',
-      options: ['Clitoral / external genital','Internal / deep stimulation','Squirting or female ejaculation','Anal orgasm','Prostate orgasm','Nipple / chest','Full-body / energetic','Mutual orgasm at the same time','Extended edging together','Tantric or breath-based','Non-genital exploration','Something I have not tried yet']
+      options: ['Clitoral / external genital','Internal / deep stimulation','Squirting or ejaculation','Anal orgasm','Prostate orgasm','Nipple / chest','Full-body / energetic','Mutual orgasm at the same time','Extended edging together','Tantric or breath-based','Non-genital exploration','Something I have not tried yet']
     },
     {
       id: 'orgasm_concordance',
@@ -1301,6 +1435,21 @@ const SECTIONS = [
 // STATE
 let currentSection = 0;
 let answers = {};
+let sliderTouched = new Set();
+
+// HELPERS — safe HTML escaping
+function esc(str) {
+  return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// PERSISTENCE — autosave to localStorage on every change
+function persist() {
+  try {
+    localStorage.setItem('intimacy_answers', JSON.stringify(answers));
+    localStorage.setItem('intimacy_section', String(currentSection));
+    localStorage.setItem('intimacy_touched', JSON.stringify([...sliderTouched]));
+  } catch(e) {}
+}
 
 // URL SHARING
 function encodeData(obj) {
@@ -1348,9 +1497,9 @@ function generateProfileText() {
   const lines = [];
   const w = 46;
 
-  lines.push(`&#9556;${'&#9552;'.repeat(w)}&#9559;`);
-  lines.push(`&#9553;  ${(poss.toUpperCase() + ' INTIMACY PROFILE').padEnd(w - 2)}&#9553;`);
-  lines.push(`&#9562;${'&#9552;'.repeat(w)}&#9565;`);
+  lines.push(`╔${'═'.repeat(w)}╗`);
+  lines.push(`║  ${(poss.toUpperCase() + ' INTIMACY PROFILE').padEnd(w - 2)}║`);
+  lines.push(`╚${'═'.repeat(w)}╝`);
   lines.push('');
   lines.push('This is a personal map of how I connect, what I need,');
   lines.push('and what opens me. Offered as a gift of clarity.');
@@ -1363,7 +1512,7 @@ function generateProfileText() {
     parts.forEach(p => { if (p) { lines.push(p); lines.push(''); } });
   }
 
-  function tags(arr) { return arr?.length ? arr.map(t => `  &#183; ${t}`).join('\n') : null; }
+  function tags(arr) { return arr?.length ? arr.map(t => `  · ${t}`).join('\n') : null; }
   function sv(id) {
     if (answers[id] === undefined) return null;
     const q = findQuestion(id);
@@ -1386,7 +1535,7 @@ function generateProfileText() {
   if (answers['id_orientation']?.length) id.push('Orientation: ' + answers['id_orientation'].join(', '));
   if (answers['id_relationship']?.length) id.push('Relationship structure: ' + answers['id_relationship'].join(', '));
   if (tv('id_body')) id.push('About my body:\n' + tv('id_body'));
-  sect('&#10047;', 'IDENTITY & CONTEXT', id);
+  sect('✿', 'IDENTITY & CONTEXT', id);
 
   // TOUCH
   const t = [];
@@ -1404,7 +1553,7 @@ function generateProfileText() {
   if (answers['touch_gen_penis']?.length)   t.push('Penile stimulation:\n' + tags(answers['touch_gen_penis']));
   if (answers['touch_gen_anal']?.length)    t.push('Anal and rectal stimulation:\n' + tags(answers['touch_gen_anal']));
   if (answers['touch_gen_nipple']?.length)  t.push('Nipple and chest stimulation:\n' + tags(answers['touch_gen_nipple']));
-  sect('&#10086;', 'TOUCH', t);
+  sect('❦', 'TOUCH', t);
 
   // PSYCHOLOGICAL
   const ps = [];
@@ -1417,7 +1566,7 @@ function generateProfileText() {
   if (tv('psych_seen_notes'))                ps.push(tv('psych_seen_notes'));
   if (answers['psych_arousal_words']?.length) ps.push('Words and phrases that activate my arousal:\n' + tags(answers['psych_arousal_words']));
   if (answers['psych_signal']?.length)       ps.push('How I signal when something is not right:\n' + tags(answers['psych_signal']));
-  sect('&#10059;', 'PSYCHOLOGICAL SAFETY', ps);
+  sect('❋', 'PSYCHOLOGICAL SAFETY', ps);
 
   // EMOTIONAL
   const em = [];
@@ -1429,7 +1578,7 @@ function generateProfileText() {
   if (answers['emo_aftercare_provide']?.length) em.push('Aftercare I like to provide:\n' + tags(answers['emo_aftercare_provide']));
   if (answers['emo_close']?.length)        em.push('What creates closeness:\n' + tags(answers['emo_close']));
   if (sv('emo_connection'))                em.push('Emotional-physical link: ' + sv('emo_connection'));
-  sect('&#9825;', 'EMOTIONAL INTIMACY', em);
+  sect('♡', 'EMOTIONAL INTIMACY', em);
 
   // ORGASM
   const og = [];
@@ -1442,7 +1591,7 @@ function generateProfileText() {
   if (answers['orgasm_style']?.length)          og.push('My preferred styles:\n' + tags(answers['orgasm_style']));
   if (answers['orgasm_approach']?.length)       og.push('Approaching climax in my body:\n' + tags(answers['orgasm_approach']));
   if (tv('orgasm_wish'))                        og.push('What I wish partners understood:\n' + tv('orgasm_wish'));
-  sect('&#10042;', 'ORGASM & PLEASURE', og);
+  sect('✺', 'ORGASM & PLEASURE', og);
 
   // DESIRE
   const ds = [];
@@ -1453,7 +1602,7 @@ function generateProfileText() {
   if (sv('desire_power'))                      ds.push('Power dynamic: ' + sv('desire_power'));
   if (answers['desire_sensory']?.length)       ds.push('Sensory elements that ignite me:\n' + tags(answers['desire_sensory']));
   if (tv('desire_underestimated'))             ds.push('Most underestimated about my desire:\n' + tv('desire_underestimated'));
-  sect('&#10037;', 'DESIRE & THE EROTIC MIND', ds);
+  sect('✵', 'DESIRE & THE EROTIC MIND', ds);
 
   // FORMATIVE
   const fm = [];
@@ -1463,7 +1612,7 @@ function generateProfileText() {
   if (tv('form_surprise_notes'))         fm.push(tv('form_surprise_notes'));
   if (answers['form_authentic']?.length) fm.push('What feels most authentically me:\n' + tags(answers['form_authentic']));
   if (tv('form_authentic_notes'))        fm.push(tv('form_authentic_notes'));
-  sect('&#10038;', 'FORMATIVE EXPERIENCES', fm);
+  sect('✶', 'FORMATIVE EXPERIENCES', fm);
 
   // EDGES
   const ed = [];
@@ -1473,7 +1622,7 @@ function generateProfileText() {
   if (tv('edge_self'))                     ed.push('My most expansive sexual self:\n' + tv('edge_self'));
   if (answers['edge_understand']?.length)  ed.push('What I most want you to understand:\n' + tags(answers['edge_understand']));
   if (tv('edge_understand_notes'))         ed.push(tv('edge_understand_notes'));
-  sect('&#10049;', 'CURIOSITIES & EDGES', ed);
+  sect('❁', 'CURIOSITIES & EDGES', ed);
 
   lines.push('='.repeat(w));
   lines.push('Created with intention. Please receive with care.');
@@ -1484,8 +1633,8 @@ function generateProfileText() {
 function generateProfileSummary(ans) {
   const pick = (...opts) => opts[Math.floor(Math.random() * opts.length)];
 
-  const name = ans['name'] || 'This person';
-  const poss = ans['name'] ? `${ans['name']}'s` : 'Their';
+  const name = esc(ans['name'] || 'This person');
+  const poss = ans['name'] ? `${esc(ans['name'])}'s` : 'Their';
 
   // Touch style
   const touchType = ans['touch_type'];
@@ -1535,7 +1684,7 @@ function generateProfileSummary(ans) {
   ];
 
   const connectors = [
-    ' &#8212; with ', ' and, notably, ', ', alongside ', ' &#8212; and crucially, ',
+    ' — with ', ' and, notably, ', ', alongside ', ' — and crucially, ',
   ];
 
   let summary = pick(...openers) + parts[0];
@@ -1547,8 +1696,8 @@ function generateProfileSummary(ans) {
   // Add a closing line
   const closers = [
     ` ${poss} profile is an invitation to show up with curiosity, patience, and care.`,
-    ` ${poss} map is offered as a gift &#8212; read it slowly.`,
-    ` What follows is ${ans['name'] ? `${ans['name']}'s` : 'their'} honest attempt at self-knowledge.`,
+    ` ${poss} map is offered as a gift — read it slowly.`,
+    ` What follows is ${ans['name'] ? `${esc(ans['name'])}'s` : 'their'} honest attempt at self-knowledge.`,
     ` This profile is a living document of who they are right now.`,
   ];
   summary += pick(...closers);
@@ -1755,7 +1904,7 @@ function generateVisualProfile() {
 
   return `<div class="pv-wrap" id="pv-content">
     <div class="pv-header">
-      <div class="pv-header-title">${poss} Global Personal Intimacy Calculator &#10022;</div>
+      <div class="pv-header-title">${esc(poss)} Global Personal Intimacy Calculator ✦</div>
       <div class="pv-header-sub">A personal map of how I connect, what I need, and what opens me.</div>
     </div>
     ${summaryHtml}
@@ -1765,9 +1914,250 @@ function generateVisualProfile() {
   </div>`;
 }
 
+// COMPARE MODE
+let compareData = null; // { a: answers, b: answers }
+
+function parseProfileLink(input) {
+  const m = String(input).match(/#profile=([^&\s]+)/);
+  const enc = m ? m[1] : String(input).trim();
+  return decodeData(enc);
+}
+
+// Map "aftercare I need" labels to the matching "aftercare I provide" labels
+const AFTERCARE_MAP = {
+  'Being held in silence': 'Holding in silence',
+  'Words of affirmation': 'Words of affirmation',
+  'Water and food': 'Fetching water and food',
+  'A warm blanket': 'Wrapping in warmth',
+  'Physical space to decompress': 'Giving physical space',
+  'Talking it through': 'Talking it through',
+  'Humor and lightness': 'Lightness and humor',
+  'More touch': 'More touch',
+  'Sleep': 'Staying close while they sleep',
+  'Being checked in on later': 'Checking in the next day',
+};
+
+function givingReceivingMatches(aTags, bTags) {
+  const out = [];
+  (aTags || []).forEach(t => {
+    const g = t.match(/^(.*): giving$/);
+    if (g && (bTags || []).includes(g[1] + ': receiving')) out.push({ giver: 'a', what: g[1] });
+    const r = t.match(/^(.*): receiving$/);
+    if (r && (bTags || []).includes(r[1] + ': giving')) out.push({ giver: 'b', what: r[1] });
+  });
+  return out;
+}
+
+function renderCompare() {
+  const a = compareData.a, b = compareData.b;
+  const nameA = esc(a.name || 'Partner A');
+  const nameB = esc(b.name || 'Partner B');
+
+  const chips = (arr) => (arr || []).map(v => `<span class="pv-chip">${esc(v)}</span>`).join('');
+
+  // ── 1. HANDLE WITH CARE ──
+  const careRow = (label, val) => {
+    if (!val || (Array.isArray(val) && !val.length)) return '';
+    const body = Array.isArray(val) ? `<div class="pv-chips">${chips(val)}</div>` : `<div class="pv-text-val">${esc(val)}</div>`;
+    return `<div class="pv-row"><div class="pv-row-label">${label}</div>${body}</div>`;
+  };
+  const careCol = (person, name, cls) => {
+    const rows = careRow('Approach with care', person['touch_care'])
+      + careRow('Care notes', person['touch_care_notes'])
+      + careRow('Brakes', person['desire_brakes'])
+      + careRow('Harder to feel safe when', person['psych_unsafe'])
+      + careRow('How they signal something is not right', person['psych_signal']);
+    return `<div class="cmp-col ${cls}">
+      <div class="cmp-col-name"><span class="cmp-dot" style="background:var(--pc)"></span>${name}</div>
+      ${rows || '<div class="cmp-note">Nothing flagged — still worth asking.</div>'}
+    </div>`;
+  };
+  const careHtml = `<div class="pv-section-block pv-full-width">
+    <div class="pv-section-head"><span class="pv-section-sym sym">❋</span><span class="pv-section-name">Handle With Care</span></div>
+    <div class="pv-rainbow-divider"></div>
+    <div class="cmp-note" style="margin:0 0 0.9rem;">Read this part first. Knowing each other's edges and brakes is the foundation everything else builds on.</div>
+    <div class="cmp-cols">${careCol(a, nameA, 'cmp-person-a')}${careCol(b, nameB, 'cmp-person-b')}</div>
+  </div>`;
+
+  // ── 2. WHERE YOU MEET — shared tag selections, grouped by section ──
+  const CARE_IDS = new Set(['touch_care', 'desire_brakes', 'psych_unsafe', 'psych_signal']);
+  let meetBlocks = '';
+  SECTIONS.forEach((s, si) => {
+    if (!s.questions || s.id === 'identity') return;
+    let rows = '';
+    s.questions.forEach(q => {
+      if (q.type !== 'tags' || CARE_IDS.has(q.id)) return;
+      const shared = (a[q.id] || []).filter(v => (b[q.id] || []).includes(v));
+      if (!shared.length) return;
+      rows += `<div class="pv-row"><div class="pv-row-label">${q.label}</div><div class="pv-chips">${chips(shared)}</div></div>`;
+    });
+    if (rows) {
+      const st = STYLES[si];
+      meetBlocks += `<div class="pv-section-block">
+        <div class="pv-section-head"><span class="pv-section-sym sym">${st.emoji}</span><span class="pv-section-name">${st.name}</span></div>
+        <div class="pv-rainbow-divider"></div>${rows}
+      </div>`;
+    }
+  });
+  const meetHtml = meetBlocks ? `<div class="pv-section-block pv-full-width" style="padding-bottom:0.6rem;">
+    <div class="pv-section-head"><span class="pv-section-sym sym">♡</span><span class="pv-section-name">Where You Meet</span></div>
+    <div class="pv-rainbow-divider"></div>
+    <div class="cmp-note" style="margin:0;">Everything below, you both chose independently.</div>
+  </div><div class="pv-grid">${meetBlocks}</div>` : '';
+
+  // ── 3. COMPLEMENTARY ENERGIES ──
+  let pairs = '';
+  const pairRow = (giverName, what, receiverName) =>
+    `<div class="cmp-pair"><span>${giverName}</span><span class="cmp-pair-arrow">→</span><span><strong>${esc(what)}</strong></span><span class="cmp-pair-arrow">→</span><span>${receiverName}</span></div>`;
+
+  ['touch_impact', 'edge_curious'].forEach(qid => {
+    givingReceivingMatches(a[qid], b[qid]).forEach(m => {
+      pairs += m.giver === 'a' ? pairRow(nameA, m.what, nameB) : pairRow(nameB, m.what, nameA);
+    });
+  });
+  Object.entries(AFTERCARE_MAP).forEach(([need, provide]) => {
+    if ((a['emo_aftercare'] || []).includes(need) && (b['emo_aftercare_provide'] || []).includes(provide))
+      pairs += pairRow(nameB, 'Aftercare: ' + need.toLowerCase(), nameA);
+    if ((b['emo_aftercare'] || []).includes(need) && (a['emo_aftercare_provide'] || []).includes(provide))
+      pairs += pairRow(nameA, 'Aftercare: ' + need.toLowerCase(), nameB);
+  });
+
+  // Power slider complement
+  let powerNote = '';
+  if (a['desire_power'] !== undefined && b['desire_power'] !== undefined) {
+    const pa = a['desire_power'], pb = b['desire_power'];
+    if (Math.abs(pa + pb - 100) <= 25 && Math.abs(pa - pb) >= 30)
+      powerNote = `<div class="cmp-note">⚡ Your power dynamics lean opposite ways — one drawn to leading, one to surrendering. That is not a mismatch; that is a fit.</div>`;
+    else if (pa > 65 && pb > 65)
+      powerNote = `<div class="cmp-note">Two people who love to lead. Trading who holds the reins could be its own adventure.</div>`;
+    else if (pa < 35 && pb < 35)
+      powerNote = `<div class="cmp-note">Two people who love to be led. Worth a playful conversation about who steps forward, and when.</div>`;
+  }
+  const compHtml = (pairs || powerNote) ? `<div class="pv-section-block pv-full-width">
+    <div class="pv-section-head"><span class="pv-section-sym sym">✺</span><span class="pv-section-name">Complementary Energies</span></div>
+    <div class="pv-rainbow-divider"></div>
+    <div class="cmp-note" style="margin:0 0 0.9rem;">Where one of you wants to give exactly what the other wants to receive.</div>
+    ${pairs}${powerNote}
+  </div>` : '';
+
+  // ── 4. SIDE BY SIDE — dual-marker sliders ──
+  let sliderRows = '';
+  for (const s of SECTIONS) {
+    if (!s.questions) continue;
+    for (const q of s.questions) {
+      if (q.type !== 'slider' || q.id === 'desire_power') continue;
+      const va = a[q.id], vb = b[q.id];
+      if (va === undefined || vb === undefined) continue;
+      const near = Math.abs(va - vb) <= 20;
+      const flip = Math.abs(va - vb) < 12; // labels collide — stagger them
+      sliderRows += `<div class="pv-row" style="margin-bottom:1.6rem;">
+        <div class="pv-row-label">${q.label}</div>
+        <div class="cmp-dual-track">
+          <div class="cmp-marker cmp-person-a" style="left:${va}%"><span class="cmp-marker-label above">${nameA}</span></div>
+          <div class="cmp-marker cmp-person-b" style="left:${vb}%"><span class="cmp-marker-label ${flip ? 'below' : 'above'}">${nameB}</span></div>
+        </div>
+        <div class="cmp-note" style="margin-top:1.2rem;">${nameA}: ${esc(sliderLabel(q, va))} · ${nameB}: ${esc(sliderLabel(q, vb))}${near ? ' — right in step.' : ' — different rhythms. A conversation, not a problem.'}</div>
+      </div>`;
+    }
+  }
+  const slidersHtml = sliderRows ? `<div class="pv-section-block pv-full-width">
+    <div class="pv-section-head"><span class="pv-section-sym sym">✵</span><span class="pv-section-name">Side by Side</span></div>
+    <div class="pv-rainbow-divider"></div>${sliderRows}
+  </div>` : '';
+
+  // ── 5. ASK EACH OTHER ABOUT ──
+  const askCol = (mine, theirs, name, cls) => {
+    let items = [];
+    ['edge_curious', 'orgasm_explore_partner', 'desire_mind'].forEach(qid => {
+      (mine[qid] || []).forEach(v => { if (!(theirs[qid] || []).includes(v)) items.push(v); });
+    });
+    items = [...new Set(items)].slice(0, 8);
+    if (!items.length) return '';
+    return `<div class="cmp-col ${cls}">
+      <div class="cmp-col-name"><span class="cmp-dot" style="background:var(--pc)"></span>Ask ${name} about</div>
+      <div class="pv-chips">${chips(items)}</div>
+    </div>`;
+  };
+  const askA = askCol(a, b, nameA, 'cmp-person-a');
+  const askB = askCol(b, a, nameB, 'cmp-person-b');
+  const askHtml = (askA || askB) ? `<div class="pv-section-block pv-full-width">
+    <div class="pv-section-head"><span class="pv-section-sym sym">❁</span><span class="pv-section-name">Ask Each Other About</span></div>
+    <div class="pv-rainbow-divider"></div>
+    <div class="cmp-note" style="margin:0 0 0.9rem;">Things one of you is drawn to that the other has not mentioned — yet. Curiosities, not demands.</div>
+    <div class="cmp-cols">${askA}${askB}</div>
+  </div>` : '';
+
+  return `<div class="section-card">
+    <div class="completion-banner">
+      <div class="completion-title rf">${nameA} ✦ ${nameB}</div>
+      <p class="completion-sub">Where your maps meet — made to start conversations, not score them</p>
+      <div class="rainbow-divider" style="margin: 1rem 0 0;"></div>
+    </div>
+
+    <div class="pv-wrap" id="cmp-content">
+      <div class="pv-header">
+        <div class="pv-header-title">Two Maps, One Table ✦</div>
+        <div class="pv-header-sub">${nameA} and ${nameB}, side by side.</div>
+      </div>
+      <div class="cmp-legend">
+        <span class="cmp-legend-item cmp-person-a"><span class="cmp-dot" style="background:var(--pc)"></span>${nameA}</span>
+        <span class="cmp-legend-item cmp-person-b"><span class="cmp-dot" style="background:var(--pc)"></span>${nameB}</span>
+      </div>
+      ${careHtml}
+      ${meetHtml}
+      ${compHtml}
+      ${slidersHtml}
+      ${askHtml}
+      <div class="pv-footer">No scores. No percentages. Just two honest maps and everything they make possible.</div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="btn btn-primary" id="btn-cmp-link">Copy Compare Link</button>
+      <button class="btn" id="btn-cmp-back">← Back to Profile</button>
+    </div>
+    <p id="cmp-share-note" style="display:none;font-family:var(--sans);font-size:0.72rem;color:#767676;font-style:italic;margin-top:0.8rem;text-align:center;">
+      This link contains both of your full profiles. Share it only with each other.
+    </p>
+  </div>`;
+}
+
+function startCompare(myAnswers, theirLink) {
+  let theirs;
+  try {
+    theirs = parseProfileLink(theirLink);
+  } catch (e) {
+    alert('That link did not work — make sure you paste the full profile link they sent you.');
+    return;
+  }
+  compareData = { a: myAnswers, b: theirs };
+  render();
+}
+
 // RENDER
 function render() {
   const app = document.getElementById('app');
+
+  if (compareData) {
+    app.innerHTML = renderCompare();
+    document.getElementById('btn-cmp-link').addEventListener('click', () => {
+      const url = window.location.href.split('#')[0] + '#compare=' + encodeData(compareData);
+      navigator.clipboard.writeText(url).then(() => {
+        const btn = document.getElementById('btn-cmp-link');
+        btn.textContent = '✓ Link Copied!';
+        const note = document.getElementById('cmp-share-note');
+        if (note) note.style.display = 'block';
+        setTimeout(() => btn.textContent = 'Copy Compare Link', 2200);
+      });
+    });
+    document.getElementById('btn-cmp-back').addEventListener('click', () => {
+      compareData = null;
+      history.pushState('', document.title, window.location.pathname + window.location.search);
+      render();
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
   const s = SECTIONS[currentSection];
 
   if (s.type === 'intro') {
@@ -1778,7 +2168,27 @@ function render() {
     document.getElementById('btn-pdf').addEventListener('click', () => window.print());
     document.getElementById('btn-copy-text').addEventListener('click', copyPlainText);
     document.getElementById('btn-share').addEventListener('click', shareAsLink);
-    document.getElementById('btn-restart').addEventListener('click', () => { currentSection = 0; answers = {}; history.pushState('', document.title, window.location.pathname + window.location.search); render(); });
+    document.getElementById('btn-restart').addEventListener('click', () => {
+      currentSection = 0; answers = {}; sliderTouched = new Set(); viewingSharedProfile = false;
+      try { localStorage.removeItem('intimacy_answers'); localStorage.removeItem('intimacy_section'); localStorage.removeItem('intimacy_touched'); } catch(e) {}
+      history.pushState('', document.title, window.location.pathname + window.location.search);
+      render();
+    });
+    document.getElementById('btn-compare').addEventListener('click', () => {
+      const link = document.getElementById('cmp-paste').value.trim();
+      if (!link) { alert('Paste the profile link your partner sent you first.'); return; }
+      startCompare(answers, link);
+    });
+    const cmpMineBtn = document.getElementById('btn-cmp-mine');
+    if (cmpMineBtn) cmpMineBtn.addEventListener('click', () => {
+      try {
+        const mine = JSON.parse(localStorage.getItem('intimacy_answers'));
+        compareData = { a: mine, b: answers };
+        render();
+      } catch(e) {
+        alert('Could not load your saved profile on this device.');
+      }
+    });
   } else {
     app.innerHTML = renderSection(s);
     restoreAnswers(s);
@@ -1790,9 +2200,9 @@ function renderIntro() {
   const val = answers['name'] || '';
   return `
     <div class="section-card intro">
-      <div class="deco sym">&#10047; &#10086; &#10059; &#9825; &#10042; &#10037; &#10038; &#10049;</div>
-      <div class="intro-logo rf">Global Personal<br>Intimacy Calculator<span class="star-mark">&#10022;</span></div>
-      <div class="deco sym">&#10049; &#10038; &#10037; &#10042; &#9825; &#10059; &#10086; &#10047;</div>
+      <div class="deco sym">✿ ❦ ❋ ♡ ✺ ✵ ✶ ❁</div>
+      <div class="intro-logo rf">Global Personal<br>Intimacy Calculator<span class="star-mark">✦</span></div>
+      <div class="deco sym">❁ ✶ ✵ ✺ ♡ ❋ ❦ ✿</div>
 
       <div class="intro-card">
         <p class="intro-body">
@@ -1803,7 +2213,7 @@ function renderIntro() {
           A way to reveal your likes to your partner. Perhaps even reveal some to yourself, too.<br><br>
           Upon completion, the profile you receive can be shared with partners as an act of communication and care.
           <strong>A gift of kind-hearted connection and clarity.</strong><br><br>
-          And when you're done, why not explore the <a href="#" style="color:inherit;text-decoration:underline;">Global Kink Calculator</a> and share how to level up these acts of touching into scenes and dynamics that propel intimacy, enhance connection and explore deeper stories.<br><br>
+          And when you're done, why not explore the <a href="https://global-kink-calculator.vercel.app/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">Global Kink Calculator</a> and share how to level up these acts of touching into scenes and dynamics that propel intimacy, enhance connection and explore deeper stories.<br><br>
           Of course, all info is private and kept on your device.<br><br>
           Enjoy, connect, explore. All in the name of good, clean, dirty fun.
         </p>
@@ -1819,7 +2229,7 @@ function renderIntro() {
       <div style="margin-top: 1.2rem;">
         <button class="btn btn-primary" style="font-size: 0.95rem; padding: 0.8rem 2.5rem;"
           onclick="answers['name'] = document.getElementById('name-input').value; currentSection = 1; render();">
-          Let's Begin &#8594;
+          Let's Begin →
         </button>
       </div>
       <p class="privacy-note">All answers remain on your device only. Nothing is sent anywhere.</p>
@@ -1827,8 +2237,23 @@ function renderIntro() {
   `;
 }
 
-function goBack()  { saveAnswers(SECTIONS[currentSection]); currentSection--; render(); }
-function goNext()  { saveAnswers(SECTIONS[currentSection]); currentSection++; render(); }
+function goBack() {
+  saveAnswers(SECTIONS[currentSection]);
+  currentSection--;
+  history.pushState({ section: currentSection }, '');
+  render();
+}
+function goNext() {
+  saveAnswers(SECTIONS[currentSection]);
+  currentSection++;
+  history.pushState({ section: currentSection }, '');
+  render();
+}
+
+window.addEventListener('popstate', (e) => {
+  const s = e.state?.section;
+  if (s !== undefined) { currentSection = s; render(); }
+});
 
 function renderSection(section) {
   const contentSections = SECTIONS.filter(s => !s.type);
@@ -1874,7 +2299,7 @@ function renderSection(section) {
           ${isLast ? '' : `Next: ${nextName}`}
         </div>
         <button class="btn btn-primary" onclick="goNext()">
-          ${isLast ? 'Generate My Profile &#10022;' : 'Continue &#8594;'}
+          ${isLast ? 'Generate My Profile ✦' : 'Continue →'}
         </button>
       </div>
     </div>
@@ -1890,7 +2315,11 @@ function renderQuestion(q) {
     input = `<textarea id="${q.id}" placeholder="${(q.placeholder || '').replace(/"/g,'&quot;')}" rows="3"></textarea>`;
   } else if (q.type === 'tags') {
     const tagHTML = q.options.map(opt =>
-      `<span class="tag" data-qid="${q.id}" data-val="${opt.replace(/"/g,'&quot;')}" onclick="toggleTag(this)">${opt}</span>`
+      `<span class="tag" role="button" tabindex="0" aria-pressed="false"
+        data-qid="${q.id}" data-val="${opt.replace(/"/g,'&quot;')}"
+        onclick="toggleTag(this)"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTag(this);}"
+      >${opt}</span>`
     ).join('');
     input = `<div class="tags">${tagHTML}</div>`;
   } else if (q.type === 'slider') {
@@ -1898,9 +2327,10 @@ function renderQuestion(q) {
       <div class="slider-wrap">
         <div class="slider-labels"><span>${q.min}</span><span>${q.max}</span></div>
         <input type="range" id="${q.id}" min="0" max="100" value="50"
-          oninput="document.getElementById('${q.id}-val').textContent = sliderLabelById('${q.id}')">
+          oninput="sliderTouched.add('${q.id}'); document.getElementById('${q.id}-val').textContent = sliderLabelById('${q.id}'); document.getElementById('${q.id}-untouched').style.display='none';">
         <div class="slider-value-wrap">
           <span class="slider-value" id="${q.id}-val">${q.steps[2]}</span>
+          <span id="${q.id}-untouched" style="display:inline-block;margin-left:0.5rem;font-size:0.65rem;color:#767676;font-style:italic;">move to record</span>
         </div>
       </div>
     `;
@@ -1917,17 +2347,31 @@ function renderQuestion(q) {
 }
 
 function renderProfile() {
-  const name = answers['name'] ? `${answers['name']}'s` : 'Your';
+  const name = answers['name'] ? `${esc(answers['name'])}'s` : 'Your';
   const visualProfile = generateVisualProfile();
   return `
     <div class="section-card">
       <div class="completion-banner">
-        <div class="completion-title rf">Complete<span class="star-mark">&#10022;</span></div>
+        <div class="completion-title rf">Complete<span class="star-mark">✦</span></div>
         <p class="completion-sub">${name} intimacy profile is ready to share</p>
         <div class="rainbow-divider" style="margin: 1rem 0 0;"></div>
       </div>
 
       ${visualProfile}
+
+      ${viewingSharedProfile ? `
+      <div style="background:#fff;border:3px solid var(--black);border-radius:16px;box-shadow:4px 4px 0 #7A3848;padding:1.4rem;margin-bottom:1.4rem;text-align:center;">
+        <div style="font-family:var(--display);font-size:1.6rem;font-weight:700;margin-bottom:0.4rem;">
+          Someone shared their map with you <span class="rf">✦</span>
+        </div>
+        <p style="font-family:var(--sans);font-size:0.9rem;color:#555;margin-bottom:1rem;">
+          Now make yours — and trade. The more you both share, the closer you get.
+        </p>
+        <button class="btn btn-primary" onclick="viewingSharedProfile=false;currentSection=0;answers={};sliderTouched=new Set();try{localStorage.removeItem('intimacy_answers');localStorage.removeItem('intimacy_section');localStorage.removeItem('intimacy_touched');}catch(e){}history.pushState('','',window.location.pathname);render();">
+          Make My Own Profile →
+        </button>
+        ${(() => { try { return localStorage.getItem('intimacy_answers') ? '<button class="btn" id="btn-cmp-mine" style="margin-left:0.6rem;">Compare With Mine ✦</button>' : ''; } catch(e) { return ''; } })()}
+      </div>` : ''}
 
       <div class="profile-actions">
         <button class="btn btn-primary" id="btn-img">Download Image</button>
@@ -1935,6 +2379,20 @@ function renderProfile() {
         <button class="btn" id="btn-copy-text">Copy Plain Text</button>
         <button class="btn" id="btn-share">Share as Link</button>
         <button class="btn" id="btn-restart">Start Over</button>
+      </div>
+      <p id="share-note" style="display:none;font-family:var(--sans);font-size:0.72rem;color:#767676;font-style:italic;margin-top:0.8rem;text-align:center;">
+        This link contains your full profile. Only share with people you trust — it will sit in their chat history.
+      </p>
+
+      <div class="intro-card cmp-paste-card" style="margin-top:1.4rem;">
+        <span class="name-label">Received a partner's link?</span>
+        <p style="font-family:var(--sans);font-size:0.85rem;color:#555;margin-bottom:0.8rem;">
+          Paste it here to see where your two maps meet — shared ground, complementary energies, and what to ask each other about. Nothing leaves this page.
+        </p>
+        <textarea id="cmp-paste" placeholder="Paste their profile link..."></textarea>
+        <div style="margin-top:0.8rem;">
+          <button class="btn btn-primary" id="btn-compare">Compare Our Maps ✦</button>
+        </div>
       </div>
     </div>
   `;
@@ -1948,9 +2406,10 @@ function saveAnswers(section) {
       if (el) answers[q.id] = el.value;
     } else if (q.type === 'slider') {
       const el = document.getElementById(q.id);
-      if (el) answers[q.id] = parseInt(el.value);
+      if (el && sliderTouched.has(q.id)) answers[q.id] = parseInt(el.value);
     }
   });
+  persist();
 }
 
 function restoreAnswers(section) {
@@ -1965,11 +2424,15 @@ function restoreAnswers(section) {
         el.value = answers[q.id];
         const valEl = document.getElementById(`${q.id}-val`);
         if (valEl) valEl.textContent = sliderLabelById(q.id);
+        const hintEl = document.getElementById(`${q.id}-untouched`);
+        if (hintEl && sliderTouched.has(q.id)) hintEl.style.display = 'none';
       }
     } else if (q.type === 'tags') {
       const saved = answers[q.id] || [];
       document.querySelectorAll(`.tag[data-qid="${q.id}"]`).forEach(tag => {
-        if (saved.includes(tag.dataset.val)) tag.classList.add('active');
+        const active = saved.includes(tag.dataset.val);
+        if (active) tag.classList.add('active');
+        tag.setAttribute('aria-pressed', String(active));
       });
     }
   });
@@ -1977,12 +2440,15 @@ function restoreAnswers(section) {
 
 function toggleTag(el) {
   el.classList.toggle('active');
+  const isActive = el.classList.contains('active');
+  el.setAttribute('aria-pressed', String(isActive));
   const qid = el.dataset.qid;
   const val = el.dataset.val;
   if (!answers[qid]) answers[qid] = [];
   const idx = answers[qid].indexOf(val);
   if (idx === -1) answers[qid].push(val);
   else answers[qid].splice(idx, 1);
+  persist();
 }
 
 // SHARE ACTIONS
@@ -1991,7 +2457,7 @@ function copyPlainText() {
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById('btn-copy-text');
     const orig = btn.textContent;
-    btn.textContent = '&#10003; Copied!';
+    btn.textContent = '✓ Copied!';
     setTimeout(() => btn.textContent = orig, 2200);
   });
 }
@@ -2002,7 +2468,9 @@ function shareAsLink() {
   navigator.clipboard.writeText(url).then(() => {
     const btn = document.getElementById('btn-share');
     const orig = btn.textContent;
-    btn.textContent = '&#10003; Link Copied!';
+    btn.textContent = '✓ Link Copied!';
+    const note = document.getElementById('share-note');
+    if (note) note.style.display = 'block';
     setTimeout(() => btn.textContent = orig, 2200);
   });
 }
@@ -2026,82 +2494,34 @@ function downloadAsImage() {
 }
 
 // INIT
-if (location.hash && location.hash.startsWith('#profile=')) {
+let viewingSharedProfile = false;
+
+if (location.hash && location.hash.startsWith('#compare=')) {
+  try {
+    const data = decodeData(location.hash.slice(9));
+    if (data && data.a && data.b) compareData = data;
+  } catch(e) {
+    console.warn('Could not decode comparison from URL', e);
+  }
+} else if (location.hash && location.hash.startsWith('#profile=')) {
   try {
     answers = decodeData(location.hash.slice(9));
     currentSection = SECTIONS.length - 1;
+    viewingSharedProfile = true;
   } catch(e) {
     console.warn('Could not decode profile from URL', e);
   }
+} else {
+  try {
+    const savedAnswers  = localStorage.getItem('intimacy_answers');
+    const savedSection  = localStorage.getItem('intimacy_section');
+    const savedTouched  = localStorage.getItem('intimacy_touched');
+    if (savedAnswers)  answers        = JSON.parse(savedAnswers);
+    if (savedSection)  currentSection = parseInt(savedSection);
+    if (savedTouched)  sliderTouched  = new Set(JSON.parse(savedTouched));
+  } catch(e) {}
 }
 
-// TEMP PREVIEW &#8212; DISABLED
-const _demo = {
-  name: 'Alex',
-  id_gender: ['Non-binary','Genderqueer'],
-  id_pronouns: ['they/them','she/her'],
-  id_orientation: ['Queer','Bisexual'],
-  id_relationship: ['Ethically non-monogamous (ENM)','Polyamorous'],
-  id_anatomy: ['Vulva and clitoris','Uterus and cervix'],
-  id_neurodiv: ['ADHD'],
-  id_body: 'I have hypermobility so some positions need care. I experience occasional pelvic pain.',
-  touch_approach: ['Slowly and deliberately','Face-to-face with eye contact','After a long buildup'],
-  touch_type: 30,
-  touch_pressure: 55,
-  touch_welcome: ['Scalp and hair','Neck and throat','Back','Inner thighs','Lower back and sacrum'],
-  touch_care: ['Stomach and abdomen','During menstruation or hormonal shifts'],
-  touch_care_notes: 'My lower back needs warmth before pressure.',
-  touch_ticklish: ['Ribs and sides','Inner thighs','Behind the knees'],
-  touch_present: ['Slow, sustained pressure','Skin traced very slowly','Words spoken quietly while touching','Full-body contact, skin to skin'],
-  touch_sensation: 45,
-  touch_impact: ['Scratching: receiving','Biting: receiving','Hair pulling: receiving'],
-  touch_gen_clitoris: ['Indirect touch through the hood','Firm and sustained pressure','Slow build only, no rushing'],
-  touch_gen_anal: ['Not for me'],
-  touch_gen_nipple: ['Very sensitive, gentle only','Pleasurable as part of whole-body touch'],
-  psych_needs: ['Time and patience','Eye contact','Complete presence from my partner','Being asked, not assumed','Words of praise'],
-  psych_attachment: ['Anxious: I tend to need reassurance and fear distance'],
-  psych_safe: ['Consistency over time','A constructive spirit around what I reveal','No performance expected of me','Genuine curiosity about who I am'],
-  psych_safe_notes: 'When someone remembers the small things I have shared.',
-  psych_unsafe: ['Being rushed','Absence of curiosity or genuine interest','Feeling judged or assessed','Sudden or unexplained shifts in energy'],
-  psych_seen: ['I am not going anywhere','Take your time','I am listening','There is nowhere I would rather be'],
-  psych_seen_notes: '"You are allowed to take up space."',
-  psych_signal: ['I go quiet and need someone to check in','I freeze and need gentle checking in'],
-  psych_arousal_words: ['"Good one"','Soft whispered words','Praise and admiration','Just like that','More'],
-  emo_desire_type: 20,
-  emo_state: ['Feeling like there is nowhere to be','After an honest conversation','Well rested','Emotionally settled'],
-  emo_emotions: ['I go quiet and reflective','I feel closer than any other time','I feel more fully in my skin','I feel peaceful and safe'],
-  emo_emotions_want: ['Deep surrender and release','Tenderness and gentleness','Profound physical pleasure','Being utterly present'],
-  emo_aftercare: ['Being held in silence','Words of affirmation','A warm blanket','Being checked in on later'],
-  emo_aftercare_provide: ['Holding in silence','Fetching water and food','Staying close while they sleep'],
-  emo_close: ['Shared vulnerability','Small acts of real attention','Being known without explanation','Accepting parts I usually hide'],
-  emo_connection: 85,
-  orgasm_types: ['Clitoral / external genital','Internal / deep (G-spot / anterior wall)','Full-body / energetic'],
-  orgasm_explore_partner: ['Mutual orgasm at the same time','Extended edging together','Tantric or breath-based'],
-  orgasm_concordance: ['Sometimes, depending on stress or context'],
-  orgasm_conditions: ['Feeling completely unjudged','Trust in my partner','Freedom to take as long as I need','No pressure to perform or finish'],
-  orgasm_importance: 60,
-  orgasm_partner_importance: 80,
-  orgasm_style: ['Long, slow builds','Sustained arousal without climax'],
-  orgasm_approach: ['My breath deepens and changes','I go very still','I need sustained rhythm without change','It builds in waves'],
-  orgasm_wish: 'It takes longer than most people expect. Stopping or changing rhythm at the wrong moment resets everything.',
-  desire_accelerators: ['Being truly seen and attended to','Slow build over time','Eye contact that holds','Connection and warmth beforehand','Tension and anticipation','Being in nature or open air'],
-  desire_accelerators_other: 'Good conversation that goes somewhere unexpected.',
-  desire_brakes: ['Stress or mental noise','Performance pressure','Feeling unheard or disconnected recently','Feeling rushed or on a schedule'],
-  desire_mind: ['Tenderness and vulnerability','Words, voice and language','Slowness and patience','Being truly known','Seeking to truly know my partner'],
-  desire_power: 25,
-  desire_sensory: ['Sound and voice','Scent and pheromones','Rhythm and movement','Air and wind on the skin','Water: immersion, rain, or the shower'],
-  desire_underestimated: 'How much I need to feel emotionally settled before I can feel physically open. The two are not separate for me.',
-  form_shaped: 'The first relationship where I felt like I did not have to translate myself before being understood.',
-  form_met: 'A moment of complete stillness where nothing needed to be performed or explained.',
-  form_surprise: ['That I needed more tenderness than I admitted','How much emotional connection matters to my arousal','That emotional safety is a prerequisite for me'],
-  form_authentic: ['My need for deep presence','My tenderness','My capacity for vulnerability','My curiosity and openness'],
-  edge_curious: ['Extended sensation play','Tantric breathwork or practices','Orgasm control: receiving','Body worship: receiving','Dominant dynamics (I lead)'],
-  edge_curious_notes: 'Extended breathwork in a context of complete trust.',
-  edge_safety: ['Explicit conversation before we begin','Willingness to stop without question','A commitment to aftercare','Real trust built over time, not rushed'],
-  edge_self: 'Fully present. Unhurried. Completely unashamed. Able to ask for exactly what I want without translating it first.',
-  edge_understand: ['That vulnerability is sacred to me','That slowness is not hesitation','That I may freeze instead of speaking when overwhelmed','That aftercare is not optional for me','That I am still discovering myself'],
-};
-// END TEMP PREVIEW
 
 render();
 </script>
